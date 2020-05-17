@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 
 exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
     
-    const settings = client.dbgetconfig(message)
+    //const settings = client.dbgetconfig(message)
     const msgdel = client.config.msgdelete
 
     if (args[0]) {
@@ -46,7 +46,7 @@ exports.run = async (client, message, args, level) => { // eslint-disable-line n
         let embed = new Discord.RichEmbed()
             .setThumbnail(client.user.avatarURL)
             .setTitle(`${message.guild.me.displayName}  -  Command List \n`)
-            .addField(`ʀᴇᴀᴅ ᴍᴏʀᴇ`, "\n> Use" + "`" + settings[0].prefix + "help <commandname>" + "`" + "for details ")
+            .addField(`ʀᴇᴀᴅ ᴍᴏʀᴇ`, "\n> Use help <commandname>" + "`" + "for details ")
             .setColor("#2C2F33")
 
         const sorted = await myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 : p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1);

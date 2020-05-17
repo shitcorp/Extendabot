@@ -133,9 +133,10 @@ const init = async () => {
   
     });
   
+    client.login(client.config.token);
+
     allplugins();
 
-    client.login(client.config.token);
   
   
   

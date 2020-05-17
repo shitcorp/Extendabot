@@ -1,5 +1,6 @@
 const config = require('./data/config.json')
 const embeds = require('./data/embeds')
+
 exports.plugin = {
     name: "Logger",
     desc: "Offers some logging capabilities.",
@@ -81,7 +82,8 @@ exports.plugin = {
         perms: ['ADMINISTRATOR'],
         repo: "",
         author: "MeerBiene#7060",
-        authordiscordid: "686659882551607346"
+        authordiscordid: "686659882551607346",
+        type: "BASIC"
     },
     help: {
         name: "Logger",

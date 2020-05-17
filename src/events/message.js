@@ -6,21 +6,21 @@ const cmdRecently = new Set();
 module.exports = async (client, message) => {
 
 
-  if (message.author.bot) return  
+if (message.author.bot) return  
 
-
-  client.plugins.forEach(plugin => {
-    if (plugin.events) {            
-        for (let event in plugin.events) {
-            if (plugin.events.hasOwnProperty(event)) {
-                let value = plugin.events[event]
-                if (event === "message") {
-                    value.run(client, message)
-                }
+for (let plugin in client.plugins) {
+  if (plugin.events) {            
+    for (let event in plugin.events) {
+        if (plugin.events.hasOwnProperty(event)) {
+            let value = plugin.events[event]
+            if (event === "message") {
+                value.run(client, message)
             }
         }
     }
-  })
+  }
+}
+  
   
   
     const msgdel = client.config.msgdelete

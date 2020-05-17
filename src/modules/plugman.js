@@ -12,6 +12,8 @@ module.exports = (client) => {
             
     
             if (props.plugin.conf.version < pkg.version) throw new Error(`Plugin was developed against an outdated version of this bot.`)
+
+            if (props.plugin.conf.type == "BASIC" && client.guilds.size > 1) throw new Error(`This plugin is made ot be only used in a single guild.`)
             
             
             if (props.init) {

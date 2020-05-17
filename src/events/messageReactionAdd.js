@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 
 module.exports = async (client, messageReaction, user) => {
-    client.plugins.forEach(plugin => {
+    for (let plugin in client.plugins) {
         if (plugin.events) {            
             for (let event in plugin.events) {
                 if (plugin.events.hasOwnProperty(event)) {
@@ -12,5 +12,5 @@ module.exports = async (client, messageReaction, user) => {
                 }
             }
         }
-    })
-};
+    }
+}

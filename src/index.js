@@ -16,6 +16,7 @@ client.logger = require("./modules/Logger");
 //require("./modules/dbhandler.js")(client);
 require("./modules/functions.js")(client);
 require("./modules/embeds.js")(client);
+require("./modules/plugman.js")(client);
 
 
 client.commands = new Enmap();
@@ -35,6 +36,25 @@ const init = async () => {
         const response = client.loadCommand(category, f);
         if (response) console.log(response);
       });
+    }
+
+
+    async function allplugins() {
+
+
+      var path = "./plugins"
+      await readdir(path, function (err, items) {
+        let amount = items.length  
+        client.logger.log(`${chalk.bgBlue("[PLUGINS]")} Loading ${chalk.green(amount)} plugins.`);
+        for (var i = 0; i < amount; i++) {
+              if (client.plugins.get(items[i])) return
+              let name = items[i]
+              
+              client.pluginloader(items[i])
+        }
+        
+      })
+
     }
   
     
@@ -113,13 +133,13 @@ const init = async () => {
   
     });
   
-  
+    allplugins();
 
     client.login(client.config.token);
   
   
   
     
-  };
+};
   
   init();

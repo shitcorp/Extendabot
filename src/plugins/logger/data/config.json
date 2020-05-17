@@ -1,0 +1,10 @@
+{
+    "logging-enabled": "true",
+    "message logging": "true",
+    "member-logging": "true",
+    "guild/role-logging": "true",
+
+
+    "loggingchannel": "711566222365294682"
+
+}

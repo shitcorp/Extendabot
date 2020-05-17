@@ -32,19 +32,13 @@ module.exports = async client => {
     
    //client.dbcreateconfig();
 
-   for (let plugin in client.plugins) {
+  client.plugins.forEach(plugin => {
     if (plugin.conf.type) {            
         if (plugin.conf.type === "BASIC") {
           client.logger.warn(`The plugin "${plugin.name}" is marked as BASIC, which means it only functions properly when the bot is in a single guild only. Expect your bot to malfunction.`)
         }
     }
-  }
-
-
-
-
-
-  client.logger.log(`${client.user.tag}, ready to serve ${client.users.size} users in ${client.guilds.size} servers.`, "ready");
+  })
   
 
     

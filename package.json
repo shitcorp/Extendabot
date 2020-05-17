@@ -1,0 +1,28 @@
+{
+  "name": "extendabot",
+  "version": "1.0.0",
+  "description": "This is an extensible discord bot that features a pluginsystem",
+  "main": "index.js",
+  "dependencies": {
+    "enmap": "^5.2.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MeerBiene/Extendabot.git"
+  },
+  "keywords": [
+    "plugins",
+    "discord",
+    "plugman"
+  ],
+  "author": "MeerBiene",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MeerBiene/Extendabot/issues"
+  },
+  "homepage": "https://github.com/MeerBiene/Extendabot#readme"
+}

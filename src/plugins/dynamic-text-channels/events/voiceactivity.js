@@ -10,7 +10,7 @@ exports.run = (client, voiceuserobject) => {
 
         const channels = require('../data/channels.json')
 
-        for (var vc in channels) {
+        for (let vc in channels) {
             if (channels.hasOwnProperty(vc)) {
                 let txt = channels[vc]
                 //console.log(vc, txt)

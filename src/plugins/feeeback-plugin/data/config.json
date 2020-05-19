@@ -1,0 +1,11 @@
+{
+    
+    "welcomefeedback": "true",
+    "feedbackemoji": "Click one of the reactions below to rate your overal experience on the server.",
+    "feedbackquestion": "Now briefly describe what you want to tell the staff team of this server.",
+    "feedbackmessageconfirm": "Okay this is your feedback message are you happy with it? If you want to change something, click the ❌ reaction.",
+    "feedbacksentsuccessmsg": "Your feedback message has been registered. Thank you for contributing to the project.",
+
+    "feedbackchannel": "710022037321678909"
+
+}

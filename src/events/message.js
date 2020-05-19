@@ -8,7 +8,7 @@ module.exports = async (client, message) => {
 
 if (message.author.bot) return  
 
-for (let plugin in client.plugins) {
+client.plugins.forEach(plugin => {
   if (plugin.events) {            
     for (let event in plugin.events) {
         if (plugin.events.hasOwnProperty(event)) {
@@ -19,7 +19,7 @@ for (let plugin in client.plugins) {
         }
     }
   }
-}
+})
   
   
   

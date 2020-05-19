@@ -1,4 +1,4 @@
-module.exports = async client => {
+module.exports = async (client) => {
     
   
     // Make the bot "play the game" which is the help command with default prefix.
@@ -31,13 +31,14 @@ module.exports = async client => {
   
     
    //client.dbcreateconfig();
+    client.plugins.forEach(plugin => {
+     if (plugin.conf.type) {            
+         if (plugin.conf.type === "BASIC" && client.guilds.size > 1) {
+           client.logger.warn(`The plugin "${plugin.name}" is marked as BASIC, which means it only functions properly when the bot is in a single guild only. Expect your bot to malfunction.`)
+         }
+     }
+    })
 
-  client.plugins.forEach(plugin => {
-    if (plugin.conf.type) {            
-        if (plugin.conf.type === "BASIC") {
-          client.logger.warn(`The plugin "${plugin.name}" is marked as BASIC, which means it only functions properly when the bot is in a single guild only. Expect your bot to malfunction.`)
-        }
-    }
-  })
-  
+    client.logger.ready(`${client.user.username} is ready to serve ${client.users.size} users in ${client.guilds.size} servers.`)
+
 };

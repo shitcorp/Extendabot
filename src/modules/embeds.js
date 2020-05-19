@@ -15,7 +15,7 @@ module.exports = (client) => {
 
     client.embed = (desc) => {
         const embed = new RichEmbed()
-            .setDescription("```" + `${desc}` + "```")
+            .setDescription(`${desc}`)
             .setColor("#2C2F33")
         return embed;
         

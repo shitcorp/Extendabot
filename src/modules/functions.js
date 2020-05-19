@@ -97,7 +97,47 @@ module.exports = (client) => {
         }
         return permlvl;
       };
+
+
+
+
+      client.promptMessage = async (message, author, time, validReactions) => {
+        // We put in the time as seconds, with this it's being transfered to MS
+        time *= 1000;
+    
+        // For every emoji in the function parameters, react in the good order.
+        for (const reaction of validReactions) await message.react(reaction);
+    
+        // Only allow reactions from the author, 
+        // and the emoji must be in the array we provided.
+        const filter = (reaction, user) => validReactions.includes(reaction.emoji.name) && user.id === author.id;
+    
+        // And ofcourse, await the reactions
+        return message
+          .awaitReactions(filter, {
+            max: 1,
+            time: time
+          })
+          .then(collected => collected.first() && collected.first().emoji.name);
+      }
+
+
+
+      client.awaitReply = async (msg, question, limit = 60000) => {
+        const filter = m => m.author.id === msg.author.id;
+        await msg.channel.send(question);
+        try {
+          const collected = await msg.channel.awaitMessages(filter, {
+            max: 1,
+            time: limit,
+            errors: ["time"]
+          });
+          return collected.first().content;
+        } catch (e) {
+          return false;
+        }
+      };
     
     
     
-    };
+};

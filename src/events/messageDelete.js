@@ -1,5 +1,5 @@
 module.exports = async (client, message) => {
-    for (let plugin in client.plugins) {
+    client.plugins.forEach(plugin => {
         if (plugin.events) {            
             for (let event in plugin.events) {
                 if (plugin.events.hasOwnProperty(event)) {
@@ -10,5 +10,5 @@ module.exports = async (client, message) => {
                 }
             }
         }
-    }
+    })
 }

@@ -17,6 +17,7 @@ exports.plugin = {
         },
         guildMemberRemove: {
             run: async (client, member) => {
+                member.send(`nutte`)
                 if (config["logging-enabled"] !== "true" && config["member-logging"] !== "true") return
                 let chan = member.guild.channels.get(config.loggingchannel)
                 if (!chan) return

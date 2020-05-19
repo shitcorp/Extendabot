@@ -1,5 +1,5 @@
 module.exports = async (client, oldGuild, newGuild) => {
-    for (let plugin in client.plugins) {
+    client.plugins.foreach(plugin => {
         if (plugin.events) {            
             for (let event in plugin.events) {
                 if (plugin.events.hasOwnProperty(event)) {
@@ -10,5 +10,5 @@ module.exports = async (client, oldGuild, newGuild) => {
                 }
             }
         }
-    }
+    })
 }

@@ -45,14 +45,14 @@ const init = async () => {
       var path = "./plugins"
       await readdir(path, function (err, items) {
         let amount = items.length  
-        client.logger.log(`${chalk.bgBlue("[PLUGINS]")} Loading ${chalk.green(amount)} plugins.`);
+        client.logger.log(`${chalk.bgBlue("[PLUGMAN]")} Loading ${chalk.green(amount)} plugins:`);
         for (var i = 0; i < amount; i++) {
               if (client.plugins.get(items[i])) return
               let name = items[i]
               
               client.pluginloader(items[i])
         }
-        
+        client.logger.log(`${chalk.bgBlue("[PLUGMAN]")} Finished loading ${chalk.green(amount)} plugins!`);
       })
 
     }
@@ -97,6 +97,7 @@ const init = async () => {
       // Grab the channel to check the message from
       if (packet.t === 'VOICE_STATE_UPDATE') {
   
+        // if channel is null the member left the channel
         let user = packet.d.user_id
         let guild = packet.d.guild_id
         let channel = packet.d.channel_id

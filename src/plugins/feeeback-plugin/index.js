@@ -1,6 +1,8 @@
 exports.init = (client) => {
-console.log(`
 
+require('./data/func')(client);
+
+console.log(`
 #######                                                                                   
 #       ###### ###### #####  #####    ##    ####  #    #   
 #       #      #      #    # #    #  #  #  #    # #   #      
@@ -10,8 +12,9 @@ console.log(`
 #       ###### ###### #####  #####  #    #  ####  #    #   
 
 >>  Feedback Plugin v1.0 . . . is loaded ready to go.
-
+>>  Thanks to "TheBurger3#3541" for the idea.
 `)
+
 }
 
 
@@ -27,13 +30,13 @@ exports.plugin = {
             conf: {
                 enabled: true,
                 guildOnly: true,
-                aliases: [''],
+                aliases: [],
                 permLevel: "User"
             },
             help: {
                 name: "feedback",
                 category: "Utility",
-                description: "Gives you the oppotunity to submit some feddback.",
+                description: "Gives you the oppotunity to submit some feedback.",
                 usage: "feedback -> The bot will ask you some questions that you have to answer in order to submit feedback."
             }
         }

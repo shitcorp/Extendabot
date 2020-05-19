@@ -1,60 +1,37 @@
 const Discord = require('discord.js')
 const dateFormat = require('dateformat');
 
-
 exports.init = async (client) => {
 
-console.log(`
-+++++++++++++++++++++++++++++++++++++
+console.log(`+++++++++++++++++++++++++++++++++++++
 +  >>>    Hello World v.1.0     <<<
 +
 + Thanks for using my plugin or  idk 
 + what you would want to put im here
 + so im just writing some weird shit.
-+++++++++++++++++++++++++++++++++++++
-`)
-return
++++++++++++++++++++++++++++++++++++++`)
+
+require('./data/func')(client);
+
 
 };
 
 
-async function hellocommand (message){
+async function hellocommand (client, message){
 
-    message.channel.send("world.")
+    client.helloworldgreeter(message)
 
 }
 
 
 async function bye (message) {
 
-    message.channel.send("cruel world, im leaving you today.")
-
-}
-
-async function foo(message) {
-
-    let torun = require('./cmds/foo')
-    torun.run(message);
+    let cmd = require('./cmds/bye')
+    cmd.run(message)
 
 }
 
 
-
-
-
-exports.conf = {
-    enabled: true,
-    guildOnly: true,
-    aliases: [],
-    permLevel: "root"
-};
-
-exports.help = {
-    name: "hello",
-    category: "System",
-    description: "Template command",
-    usage: "hello"
-};
 
 /**
  * @desc each command name that is registered after cmds must export a function
@@ -67,7 +44,7 @@ exports.plugin = {
     cmds: {
         hello: {
             run: async (client, message, args, level) => {
-                hellocommand(message);
+                hellocommand(client, message);
             },
             conf: {
                 enabled: true,
@@ -108,7 +85,7 @@ exports.plugin = {
         authordiscordid: "686669011601326281"
     },
     help: {
-        // This info will be displayed in the global help command
+        // This info will be displayed in the global pluginmanager command
         name: "Pluginname",
         desc: "This is a very creative plugindescription, cause i want to see if the formatting worked properly.",
         category: "test"

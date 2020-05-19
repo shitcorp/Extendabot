@@ -4,7 +4,7 @@ module.exports = (client) => {
 
 
     client.pluginloader = async (pluginname) => {
-        client.logger.log(`Plugman [${chalk.yellow(`loading ...`)}] "${pluginname}"`)
+        client.logger.log(`[${chalk.yellow(`loading ...`)}] "${pluginname}"`)
         try {
 
             const props = require(`../plugins/${pluginname}/index`)
@@ -23,7 +23,7 @@ module.exports = (client) => {
 
             // -> TODO: plugin overview/ctl cmd
             client.plugins.set(pluginname, props.plugin)
-            client.logger.log(`Plugman [${chalk.green(`loaded`)}] "${pluginname}"`)
+            client.logger.log(`[${chalk.green(`loaded`)}] "${pluginname}"`)
             // now lets register the plugins commands.
             // TODO: make sure there's no double commands, aliases
 
@@ -43,7 +43,10 @@ module.exports = (client) => {
             
        
         } catch (e) {
-            return client.logger.log(`Plugman [${chalk.red(`error`)}] Unable to load "${pluginname}" due to the following error: \n#####################\n${e}\n#####################`);
+            client.logger.log(`Plugman [${chalk.red(`error`)}] Unable to load "${pluginname}" due to the following error: \n#####################\n${e}\n#####################`);
+            if (e.toString().includes(`Cannot find module`)) {
+                client.logger.log(`Plugman [${chalk.red(`error`)}] You seem to miss a module. Install the missing module by running 'npm install "modulename"'`)
+            }
         }
     }
 

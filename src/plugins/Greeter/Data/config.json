@@ -1,0 +1,28 @@
+{
+    "greetingmessage": {
+        "message": "Welcome %USER% to %SERVERNAME%!",
+        "embed": false,
+        "embedProp": {
+            "message": "",
+            "title": "Welcome!",
+            "description": "%USER% to %SERVERNAME%",
+            "thumbnail": "",
+            "author": {
+                "image": "",
+                "name": ""
+            },
+            "footer": {
+                "message": "",
+                "timestamp": false
+            },
+            "image": "",
+            "color": "FFFFFF",
+            "fields": {
+                "key": "value"
+            }
+        }
+    },
+    "dm": true,
+    "channel": "ID_HERE"
+
+}

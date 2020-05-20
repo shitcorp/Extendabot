@@ -5,9 +5,9 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-flex">
-                                <div class ="container justify-content-center">
+                                <div class ="container justify-content-center" style="margin: 4px;">
 
-                                    <h1>This is a test file, to show you whats possible</h1>
+                                    <h1 sytel="margin: 4px;">This is a test file, to show you whats possible</h1>
 
                                     <p>{{sometest}}</p>
                                     <p>{{somethingelse}}</p>

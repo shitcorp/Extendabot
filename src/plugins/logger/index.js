@@ -1,5 +1,5 @@
-const config = require('./data/config.json')
-const embeds = require('./data/embeds')
+const config = require('./config/config.json')
+const embeds = require('./config/embeds')
 
 exports.plugin = {
     name: "Logger",

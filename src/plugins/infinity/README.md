@@ -17,7 +17,7 @@
 > ### Its simply the stuff that comes after your Domain. So if we look at the URL example.com/foo , "/foo" would be the route in that case. If you would want to register a route to lets say example.com/foo/bar , simply register "/foo/bar" as route.
 
 ## Dynamic routes:
-### **Note:** The files you want to serve dynamically, have to be located in the `/views` directory and end with .infinity
+### **Note:** The files you want to serve dynamically, have to be located in the `/server/views` directory and end with .infinity
 
 ### **Recommendation:** I strongly recommend to make a plain HTML File, write everything in there(you can place your variables while writing the HTML) and then chaning the file extension to .infinity
 
@@ -42,7 +42,7 @@
 ```
 
 ## Static routes:
-### **Note:** The files you want to serve static, have to be located in the `/public` directory and end with .html
+### **Note:** The files you want to serve static, have to be located in the `/server/public` directory and end with .html
 
 ```js
 

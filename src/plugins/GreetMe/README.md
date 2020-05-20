@@ -1,7 +1,7 @@
-# UserGreeter for ExtendABot!
+# GreetMe for ExtendABot!
 ## config
 > NEEDS DISCORD DEVELOPER MODE ENABLED! ( IF YOU DONT KNOW HOW TO ENABLE: [CLICK HERE](https://discordia.me/developer-mode) )
-```json
+```js
 {
     "greetingmessage": {
         "message": "Welcome %USER% to %SERVERNAME%!", // Will be ignored if embed is true
@@ -29,6 +29,5 @@
     },
     "dm": true, // Should this message be sent in dms?
     "channel": "ID_HERE" // Will be ignored if dm is true (Should be a channelId!)
-
 }
 ```

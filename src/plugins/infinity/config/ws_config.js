@@ -1,6 +1,13 @@
-{
+serverconfig = {
+    // you have access to the discord js client class in here
+    // 
+
     "port": 3000,
     "routes": {
+        "index": {
+            "type": "STATIC",
+            "file": "bar"
+        },
         "test": {
             "type": "DYNAMIC",
             "file": "testfile",
@@ -13,6 +20,8 @@
         "foo": {
             "type": "STATIC",
             "file": "bar"
-        }
+        } 
     }
 }
+
+module.exports = serverconfig;

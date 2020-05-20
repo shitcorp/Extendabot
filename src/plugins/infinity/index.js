@@ -1,9 +1,14 @@
-const config = require('./data/config.json')
-
 exports.init = (client) => {
 
-    let ws = require('./server/ws')
-    let Ws = new ws(config.port, client)
+    
+    
+    let ws = require('./server/webserver')
+    let Ws = new ws(3000, client)
+
+    //client.server = require('./data/routes')(client)
+
+    //console.log(client)
+    
 
 }
 

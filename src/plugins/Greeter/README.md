@@ -17,7 +17,7 @@
             },
             "footer": { // EmbedFooter
                 "message": "", // Footer message
-                "timestamp": false
+                "timestamp": false // Use timestamp
             },
             "image": "", // Embed image, leave empty for no image
             "color": "FFFFFF", // The color of the embed, leave empty if you want no color

@@ -43,9 +43,9 @@ module.exports = (client) => {
             
        
         } catch (e) {
-            client.logger.log(`Plugman [${chalk.red(`error`)}] Unable to load "${pluginname}" due to the following error: \n#####################\n${e}\n#####################`);
+            client.logger.log(`[${chalk.red(`error`)}] Unable to load "${pluginname}" due to the following error: \n#####################\n${e}\n#####################`);
             if (e.toString().includes(`Cannot find module`)) {
-                client.logger.log(`Plugman [${chalk.red(`error`)}] You seem to miss a module. Install the missing module by running 'npm install "modulename"'`)
+                client.logger.log(`[${chalk.red(`error`)}] You seem to miss a module. Install the missing module by running 'npm install "modulename"'`)
             }
         }
     }

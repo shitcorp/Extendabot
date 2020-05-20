@@ -5,7 +5,7 @@
 # Important: 
 
 #### This was mainly made for dynamic pages that allow you to render in dynamic values. I mean you can also use it as a static file server, thats kinda missing the point. 
-> BUT: no matter what, please for the love of god, use a reverse proxy like Apache or NGNINX (recommended!) to proxy your traffic from port 443 (SSL) to the port you want your webserver to be running on!
+> BUT: no matter what, please for the love of god, use a reverse proxy like Apache or NGINX (recommended!) to proxy your traffic from port 443 (SSL) to the port you want your webserver to be running on!
 
 
 # Config:
@@ -14,7 +14,7 @@
 
 
 > ## What are Routes you may ask? 
-> ### Its simply the stuff that comes after your Domain. So if we look at the URL example.com/foo , "/foo" would be the route in that case. If you would want to register a route to lets say example.com/foo/bar , simply register "/foo/bar" as route.
+> ### Its simply the stuff that comes after your Domain. So if we look at the URL example.com/foo, "/foo" would be the route in that case. If you would want to register a route to lets say example.com/foo/bar, simply register "/foo/bar" as route.
 
 ## Dynamic routes:
 ### **Note:** The files you want to serve dynamically, have to be located in the `/server/views` directory and end with .infinity

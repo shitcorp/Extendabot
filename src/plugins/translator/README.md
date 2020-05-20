@@ -9,6 +9,12 @@
 ```
 $translate de en Hallo Welt!
 ```
+Ouput:
+```
+Hello World!
+```
+
+
 
 
 # Credits:

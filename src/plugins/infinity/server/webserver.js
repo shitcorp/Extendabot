@@ -3,11 +3,18 @@ const hbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const path = require("path");
 const chalk = require("chalk");
+const morgan = require('morgan');
+const rfs = require('rotating-file-stream');
 
 class webserver {
   constructor(port, client) {
     this.client = client;
     this.port = port;
+
+    var accessLogStream = rfs.createStream('access.log', {
+      interval: '1d', // rotate daily
+      path: path.join(__dirname, 'log')
+    })
 
     this.app = express();
 
@@ -23,6 +30,7 @@ class webserver {
     this.app.set("views", path.join(__dirname, "views"));
     this.app.set("view engine", "infinity");
     this.app.use(express.static("public"));
+    this.app.use(morgan('combined', { stream: accessLogStream }))
     this.app.use(
       bodyParser.urlencoded({
         extended: false,

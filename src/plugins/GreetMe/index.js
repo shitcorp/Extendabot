@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 
 exports.init = (client) => {
+
+console.log(`++++++++++++++++++++++++++++++++++++++++++++\n>> GreetMe v1.0 is loaded and ready to go.\n++++++++++++++++++++++++++++++++++++++++++++`)
     
 }
 

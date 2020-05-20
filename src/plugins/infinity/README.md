@@ -2,6 +2,11 @@
 
 ### Serve static HTML pages directly from your Discord. But it gets better. I offer you some variables that you can place inside your HTML, that look like this: {{guildname}} or {{guildowner}}
 
+## Important: 
+
+#### This was mainly made for dynamic pages that allow you to render in dynamic values. I mean you can also use it as a static file server, thats up to you. 
+> BUT: no matter what, use a reverse proxy like Apache or what i recommend NGNINX to proxy your traffic from port 443 (SSL) to the port you want your webserver to be running on!
+
 
 ## Config:
 

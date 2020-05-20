@@ -3,15 +3,16 @@
     "routes": {
         "test": {
             "type": "DYNAMIC",
-            "name": "test",
             "file": "testfile",
-            "title": "This is a testroute"
+            "vars": {
+                "title": "Hello - World",
+                "sometest": "This is the first test variable I defined, to define more, simply add them here",
+                "somethingelse": "Some other varibale to show you its working."
+            }
         },
-        "foobar": {
+        "foo": {
             "type": "STATIC",
-            "name": "foo",
-            "file": "bar",
-            "title": "This is another route, but static"
+            "file": "bar"
         }
     }
 }

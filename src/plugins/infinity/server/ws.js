@@ -1,4 +1,4 @@
-
+const config = require('../data/config.json')
 const express = require('express');
 const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
@@ -30,12 +30,28 @@ class webserver {
         }))
         this.app.unsubscribe(bodyParser.json())
 
+        this.registerRoots()
 
         this.server = this.app.listen(port, () => {
-            client.logger.log(`Your infinity web server is started and listening on port: ${port}`)
+            console.log(`
+####################################################################
+>> Your Infinity web server is started and listening on port: ${port}
+####################################################################
+            `)
         })
 
     }
+
+
+    
+    registerRoots() {
+        this.app.get(`/${config.routes.test.name}`, (req, res) => {
+            res.render(`${config.routes.test.file}`, {
+                title: `${config.routes.test.title}`
+            })
+        })
+    }
+
 
 }
 

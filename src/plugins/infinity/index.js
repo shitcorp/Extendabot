@@ -3,7 +3,7 @@ const config = require('./data/config.json')
 exports.init = (client) => {
 
     let ws = require('./server/ws')
-    let Ws = new ws(config.port)
+    let Ws = new ws(config.port, client)
 
 }
 

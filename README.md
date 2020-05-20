@@ -1,6 +1,6 @@
 # ExtendABot - The modular discord bot!
 ## Concept of plugins
-ExtendABot is a completely modular discord bot with a pluginmanager. With that pluginmanager you can enable or disable plugins for your server. ExtendABot has a very extensive API for plugin-creaters.
+ExtendABot is a completely modular discord bot with a pluginmanager. With that pluginmanager you can enable or disable plugins for your server. ExtendABot has a very extensive API for plugin-creators.
 
 ## Create a plugin
 Creating a plugin is super easy. All you need to do is to create a folder for your plugin in the `plugins`folder, and create an `index.js` file. That index file is your main/init file that the pluginmanager will read.
@@ -93,7 +93,9 @@ exports.plugin = {
     events: {
         guildMemberAdd: {
             run: async (client, member) => {
-                member.send("Welcome!").catch(error => {});
+                member.send("Welcome!").catch(error => {
+                    client.logger.warn(`The user ${member.username} has their DM's disabled or blocked me, therefore I wasn't able to deliver my messages.`)
+                });
             }
         }
     },

@@ -79,9 +79,12 @@
 
 ```
 
+# Changelog:
+
+> + Added Request Logging Middleware [morgan](https://github.com/expressjs/morgan)
+
 
 # Planned features:
 
 > + Adding in a Mardown to HTML Converter with [showdown](https://github.com/showdownjs/showdown)
-> + Adding Logger Middleware to log requests into a .log file
 > + Adding Analytics so you can see what routes get/got the most traffic.

@@ -92,11 +92,6 @@ class webserver {
               )}  ${chalk.red.bgBlack.bold(`[STATIC]`)}`
             );
             this.app.get(`/${route}`, (req, res) => {
-              this.client.logger.log(
-                `${chalk.bgMagenta(
-                  "[INFINITY]"
-                )} The route '/${route}' has been requested by '${req.ip}'`
-              );
               res.sendFile(__dirname + "/public/" + `${prop.file}.html`);
             });
           } else if (prop.type === "DYNAMIC") {
@@ -108,11 +103,6 @@ class webserver {
               )}  ${chalk.red.bgBlack.bold(`[DYNAMIC]`)}`
             );
             this.app.get(`/${route}`, (req, res) => {
-              this.client.logger.log(
-                `${chalk.bgMagenta(
-                  "[INFINITY]"
-                )} The route '/${route}' has been requested by '${req.ip}'`
-              );
               res.render(`${prop.file}`, prop.vars);
             });
           }

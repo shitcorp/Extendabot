@@ -8,16 +8,48 @@ This plugin doesn't require any configuration at all, simply drag it in and you 
 
 + convert 
     + converts from one unit to another
-    + exampleusage: ```convert m mm 3``` 
+    + example usage: ```convert m mm 3``` 
         + converts 3 meters into millimeters
         + output:
             ``` 
             3000mm 
             ``` 
+          
++ convert -p
+    + returns all possible conversions for the specified unit
+    + example usage: ```convert -p ml```
+        + output:
+            ```
+          • mm3 (Cubic Millimeter) 
+          • cm3 (Cubic Centimeter) 
+          • ml (Millilitre) 
+          • cl (Centilitre) 
+          • dl (Decilitre) 
+          • l (Litre) 
+          • kl (Kilolitre) 
+          • m3 (Cubic meter) 
+          • km3 (Cubic kilometer) 
+          • krm (Matsked) 
+          • tsk (Tesked) 
+          • msk (Matsked) 
+          • kkp (Kaffekopp) 
+          • glas (Glas) 
+          • kanna (Kanna) 
+          • tsp (Teaspoon) 
+          • Tbs (Tablespoon) 
+          • in3 (Cubic inch) 
+          • fl-oz (Fluid Ounce) 
+          • cup (Cup) 
+          • pnt (Pint) 
+          • qt (Quart) 
+          • gal (Gallon) 
+          • ft3 (Cubic foot) 
+          • yd3 (Cubic yard)
+          ```
 
 + info 
     + returns some basic information about the specified unit
-    + exampleusage: ```info V```
+    + example usage: ```info V```
         + output: 
             ``` 
             unit: 'V', 

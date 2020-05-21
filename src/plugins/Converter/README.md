@@ -63,7 +63,7 @@ This plugin doesn't require any configuration at all, simply drag it in and you 
 
 > This plugin does legit not require any form of configuration whatsoever. simpyly drag it in, restart the bot and you are good to go.
 
-## Units
+## Available Units
 
 <details><summary>Length</summary>
 <p>

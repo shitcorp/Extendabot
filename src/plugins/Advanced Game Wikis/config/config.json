@@ -1,0 +1,14 @@
+{
+  "embedcolor": "BLUE",
+
+  "pages": {
+    "testpage": {
+      "link": "https://google.com/",
+      "image": "https://boomer.pw/i/6WiH8lu3.png"
+    },
+    "anotherpage": {
+      "link": "https://google.com/",
+      "thumbnail": "https://boomer.pw/i/BsmF6zjJ.png"
+    }
+  }
+}

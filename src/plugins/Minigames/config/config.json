@@ -1,0 +1,12 @@
+{
+  "embedcolor": "BLUE",
+
+  "dice": true,
+  "rps": true,
+  "love": true,
+  "achievement": true,
+  "meme": {
+    "enabled": true,
+    "subreddits": ["dankmeme", "meme", "me_irl", "MemeEconomy", "ComedyCemetery", "dankmemes", "funny"]
+  }
+}

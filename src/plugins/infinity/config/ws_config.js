@@ -20,7 +20,10 @@ serverconfig = {
         "foo": {
             "type": "STATIC",
             "file": "bar"
-        } 
+        },
+        "downloads": {
+            "test": "testfile.png"
+        }
     }
 }
 

@@ -8,32 +8,47 @@ exports.run = async (client, message, args, level) => {
 
 
     async function feedbacker(msg, rate) {
-        msg.clearReactions().catch(error => {});
+        try {
+        
+        msg.clearReactions().catch(error => {
+        });
 
-        msg.edit(client.embed(`${config.feedbackquestion}`)).then(msg => {
+        msg.edit(client.embed(`${config.feedbackquestion}`)).then(async msg => {
             let response = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, {
                 time: 60000
             });
 
             response.on('collect', res => {
                 //msg.delete().catch(error => {})
-                res.delete().catch(error => {})
+                try {
+                    res.delete().catch(error => {
+                    })
+                } catch (e) {
+                    console.log("23: error catched")
+                }
 
-                msg.edit(client.embed(`${config.feedbackmessageconfirm} \n` + "```" + res +"```")).then(async m => {
-                    
+                msg.edit(client.embed(`${config.feedbackmessageconfirm} \n` + "```" + res + "```")).then(async m => {
+
                     let emoji = await client.promptMessage(m, message.author, 90, ['✅', '❌'])
 
                     if (emoji === '✅') {
-                        
-                        m.delete().catch(error => {})
-                        m.channel.send(client.success(`${config.feedbacksentsuccessmsg}`)).then(msg => { msg.delete(30000).catch(error => {}) })
+                        try {
+                            m.delete().catch(error => {
+                            })
+                        } catch (er) {
+                            console.log(`Error catched`)
+                        }
+                        m.channel.send(client.success(`${config.feedbacksentsuccessmsg}`)).then(m => {
+                            m.delete(30000).catch(error => {
+                            })
+                        })
                         // TODO send embed to feedbackmsg
 
                         let embed = new Discord.RichEmbed()
-                        .setTitle(`${rate} Feedback`)
-                        .setDescription(`by <@${message.author.id}>`)
-                        .addField(`__**Feedback Message:**__`, "> `" + `${res}` + "`")
-                        .setTimestamp()
+                            .setTitle(`${rate} Feedback`)
+                            .setDescription(`by <@${message.author.id}>`)
+                            .addField(`__**Feedback Message:**__`, "> `" + `${res}` + "`")
+                            .setTimestamp()
 
                         if (rate === "Positive") {
                             embed.setColor("GREEN")
@@ -43,12 +58,14 @@ exports.run = async (client, message, args, level) => {
 
                         message.guild.channels.get(config.feedbackchannel).send(embed).then(msg => {
                             if (rate === "Positive") {
-                                msg.react("👍")
+                                msg.react("👍").catch(error => {
+                                })
                             } else if (rate === "Negative") {
-                                msg.react("👎")
+                                msg.react("👎").catch(error => {
+                                })
                             }
                         })
-                    
+
                     } else if (emoji === '❌') {
 
                         feedbacker(msg);
@@ -58,7 +75,12 @@ exports.run = async (client, message, args, level) => {
                 })
 
             })
+        }).catch(error => {
         })
+    }.catch(e)
+        {
+            
+        }
     }
 
 

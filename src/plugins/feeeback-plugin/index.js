@@ -25,7 +25,11 @@ exports.plugin = {
         feedback: {
             run: async (client, message, args, level) => {
                 let cmd = require('./cmds/feedback')
-                cmd.run(client, message, args, level)
+                try {
+                    cmd.run(client, message, args, level)
+                } catch (e) {
+                    console.log("error trying to execute feedback command")
+                }
             },
             conf: {
                 enabled: true,

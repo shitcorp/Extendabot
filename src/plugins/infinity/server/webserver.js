@@ -110,6 +110,26 @@ class webserver {
       }
     }
 
+    if (config.img) {
+      let images = config.img.images
+      for (let image in images) {
+        if (images.hasOwnProperty(image))
+
+          var file = images[image]
+        console.log(image, file)
+        if (config.img.index) {
+
+            this.app.get(`/${config.img.index}/${image}`, (req, res) => {
+              res.sendFile(__dirname + '/public/' + `${file}`)
+            })
+          }
+          this.app.get(`/${image}`, (req, res) => {
+            res.sendFile(__dirname + '/public/' + `${file}`)
+          })
+      }
+
+    }
+
     console.log(
       `${chalk.magenta(
         "# Thank you for using Infinity! You are awesome. \n"

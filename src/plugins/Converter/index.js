@@ -19,7 +19,7 @@ exports.plugin = {
             },
             help: {
                 name: "convert",
-                category: "Utility",
+                category: "Converter",
                 description: "Unit convert command.",
                 usage: "convert <from> <to> <amount> | returns the converted amount. \n> convert -p <unit>   |  returns all possible conversions for this unit."
             }
@@ -41,7 +41,7 @@ exports.plugin = {
             },
             help: {
                 name: "info",
-                category: "Utility",
+                category: "Converter",
                 description: "Unit info command.",
                 usage: "info <unit> || returns some basic information about the specified unit." 
             }
@@ -55,7 +55,7 @@ exports.plugin = {
         authordiscordid: "686669011601326281"
     },
     help: {
-        // This info will be displayed in the global pluginmanager command
+        // This info will be displayed in the global plugin manager command
         name: "Simple Unit Converter",
         desc: "A simple unit converter that allows you to convert units as well as display some information about them.",
         category: "Utility"

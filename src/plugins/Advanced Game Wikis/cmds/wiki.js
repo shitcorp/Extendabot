@@ -16,20 +16,24 @@ exports.run = (client, message, args, level) => {
                         .setColor(config.embedcolor)
                         .setTitle(args[0])
                         .setURL(props.link)
-                        .setDescription(`> [Click here](${props.link} "${args[0]}") to be taken to \`${args[0]}\``)
+
+                    let output = `> [Click here](${props.link} "${args[0]}") to be taken to \`${args[0]}\``
+
+                    if (props.desc) output += `\n\n > ${props.desc}`
                     if (props.image) embed.setImage(props.image)
                     if (props.thumbnail) embed.setThumbnail(props.thumbnail)
 
+                    embed.setDescription(output)
+
                     message.channel.send(embed)
 
-                } else {
-                    let acmd = client.commands.get('wiki')
-                    if (!acmd) return
-                    message.flags[0] = "a"
-                    acmd.run(client, message, args, level)
-                    return
                 }
-
+            } else {
+                let acmd = client.commands.get('wiki')
+                if (!acmd) return
+                message.flags[0] = "a"
+                acmd.run(client, message, args, level)
+                return
             }
         }
 

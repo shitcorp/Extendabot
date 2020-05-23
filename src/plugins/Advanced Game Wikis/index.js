@@ -21,7 +21,7 @@ exports.plugin = {
                 name: "wiki",
                 category: "Utility",
                 description: "Wiki lookup command.",
-                usage: "wiki [pagename] | Returns the link to the desired wiki page.  \nwiki -a  |  Lists all registered wiki pages."
+                usage: "wiki [pagename] | Returns the link to the desired wiki page.  \n> wiki -a  |  Lists all registered wiki pages."
             }
         }
     },

@@ -1,4 +1,4 @@
-# Simple Unit Converter PLugins
+# Simple Unit Converter Plugin
 
 
 ## Usage:

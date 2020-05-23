@@ -10,7 +10,7 @@ exports.run = (client, message, args, level) => {
 
     let checkchan = message.guild.channels.get(config.suggestionchannel)
 
-    if (!checkchan) return client.logger.warn(`Your suggestion channel does not seem to exist.`)
+    if (!checkchan) return client.logger.warn(`Your suggestion channel does not seem to exist. Please check your config for correctness.`)
 
     try {
 
@@ -39,7 +39,7 @@ exports.run = (client, message, args, level) => {
         })
 
     } catch (e) {
-        return client.logger.warn(`It seems as if the bot cant post in your suggestions channel.`)
+        return client.logger.warn(`It seems as if the bot cant post in your suggestions channel. `)
     }
 
 }

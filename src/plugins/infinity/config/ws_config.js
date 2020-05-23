@@ -20,7 +20,13 @@ serverconfig = {
         "foo": {
             "type": "STATIC",
             "file": "bar"
-        } 
+        },
+        "img": {
+            "index": "i",
+            "images": {
+                "test": "bar.html"
+            }
+        }
     }
 }
 

@@ -52,6 +52,33 @@ module.exports = (client) => {
 
 
 
+    client.eventmanager = async (eventname, arg1, arg2, arg3, arg4) => {
+        let plugins = client.plugins
+        for (let plug in plugins) {
+            if (plugins.hasOwnProperty(plug)) {
+                let plugin = plugins[plug]
+                if (plugin.events) {
+                    for (let event in plugin.events) {
+                        if (plugin.events.hasOwnProperty(event)) {
+                            let runnable = plugin.events[event]
+                            if (event === eventname) {
+                                if (arg1 && !arg2 && !arg3 && !arg4) {
+                                    runnable.run(client, arg1);
+                                } else if (arg1 && arg2 && !arg3 && !arg4) {
+                                    runnable.run(client, arg1, arg2);
+                                } else if (arg1 && arg2 && arg3 && !arg4) {
+                                    runnable.run(client, arg1, arg2, arg3);
+                                } else if (arg1 && arg2 && arg3 && arg4) {
+                                    runnable.run(client, arg1, arg2, arg3, arg4)
+                                } else return
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
 }

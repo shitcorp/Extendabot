@@ -6,7 +6,7 @@ This plugin is made for game server owners. It allows you to register wiki pages
 
 Edit the ``config.json`` that is located in the `/config` directory. Make sure to edit it with something like Notepad ++
 or Visual Studio Code to ensure your JSON is valid. If you dont want to use any
-of those, you can simply use an online JSON validator.
+of those, you can simply use an online JSON validator like [this](https://jsonformatter.curiousconcept.com/).
 
 
 ### Config:

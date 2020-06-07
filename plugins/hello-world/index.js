@@ -33,11 +33,6 @@ async function bye (message) {
 
 
 
-/**
- * @desc each command name that is registered after cmds must export a function
- * so the command "hello" has to export a function called "exports.hello = () => {}"
- */
-
 exports.plugin = {
     name: "Hello World Plugin",
     version: "1.0",
@@ -78,7 +73,7 @@ exports.plugin = {
         }
     },
     conf: {
-        version: "1.0",  // BOT version
+        version: "1.0.0",  // BOT version
         perms: ['KICK_MEMBERS', 'BAN_MEMBERS'],  // perms the bot needs to execute this plugin
         repo: "http://github.com", // to display if error happens
         author: "MeerBiene#7060",

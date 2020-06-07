@@ -1,6 +1,6 @@
 {
   "name": "extendabot",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "This is an extensible discord bot that features a pluginsystem",
   "main": "index.js",
   "dependencies": {

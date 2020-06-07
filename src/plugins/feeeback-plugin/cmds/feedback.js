@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 exports.run = async (client, message, args, level) => {
 
-    let config = require('../data/config.json')
+    let config = require('../config/config.json')
 
 
 
@@ -34,13 +34,19 @@ exports.run = async (client, message, args, level) => {
                     if (emoji === '✅') {
                         try {
                             m.delete()
+                            m.channel
+                              .send(
+                                client.success(
+                                  `${config.feedbacksentsuccessmsg}`
+                                )
+                              )
+                              .then((sm) => {
+                                sm.delete(30000).catch((error) => {});
+                              });
                         } catch (er) {
                             console.log(`Error catched`)
                         }
-                        m.channel.send(client.success(`${config.feedbacksentsuccessmsg}`)).then(m => {
-                            m.delete(30000).catch(error => {
-                            })
-                        })
+                        
                         // TODO send embed to feedbackmsg
 
                         let embed = new Discord.RichEmbed()

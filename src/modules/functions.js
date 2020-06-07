@@ -24,8 +24,8 @@ module.exports = (client) => {
     
     client.pluginloader = (pluginname) => {
         try {
-    
-            const props = require(`../plugins/${pluginname}/index`)
+          
+            const props = require(`../../plugins/${pluginname}/index`)
             if (props.init) {
                 props.init(client);
             }

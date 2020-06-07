@@ -1,6 +1,6 @@
 exports.init = (client) => {
 
-require('./data/func')(client);
+require('./config/func')(client);
 
 console.log(`
 #######                                                                                   
@@ -46,7 +46,7 @@ exports.plugin = {
         }
     },
     conf: {
-        version: "1.0",  // BOT version
+        version: "1.0.0",  // BOT version
         perms: ['SEND_MESSAGES', 'MANAGE_MESSAGES', 'READ_MESSAGES'],  // perms the bot needs to execute this plugin
         repo: "http://github.com/MeerBiene/ExtendaBot", // to display if error happens
         author: "MeerBiene#7060",

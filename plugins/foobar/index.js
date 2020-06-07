@@ -38,7 +38,7 @@ exports.plugin = {
         }
     },
     conf: {
-        version: "1.0",
+        version: "1.0.0",
         perms: ['ADMINISTRATOR'],
         repo: "",
         author: "Test#0420",

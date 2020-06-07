@@ -7,7 +7,7 @@ module.exports = (client) => {
         client.logger.log(`[${chalk.yellow(`loading ...`)}] "${pluginname}"`)
         try {
 
-            const props = require(`../plugins/${pluginname}/index`)
+            const props = require(`../../plugins/${pluginname}/index`)
             const pkg = require("../../package.json") 
             
     

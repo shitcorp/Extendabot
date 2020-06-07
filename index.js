@@ -10,13 +10,13 @@ const client = new Discord.Client();
 
 client.config = require("./config.js");
 
-client.logger = require("./modules/Logger");
+client.logger = require("./src/modules/Logger");
 
 //TODO: make new dbhandler
 //require("./modules/dbhandler.js")(client);
-require("./modules/functions.js")(client);
-require("./modules/embeds.js")(client);
-require("./modules/plugman.js")(client);
+require("./src/modules/functions.js")(client);
+require("./src/modules/embeds.js")(client);
+require("./src/modules/plugman.js")(client);
 
 
 client.commands = new Enmap();
@@ -28,7 +28,7 @@ const init = async () => {
   
     async function load(category) {
       let name = category.toUpperCase()
-      const cmdFilesFun = await readdir(`./commands/${category}/`);
+      const cmdFilesFun = await readdir(`./src/commands/${category}/`);
       let amount = cmdFilesFun.length
       client.logger.log(`${chalk.bgBlue("[CATGEORY]")} [${name}] [COMMANDS: ${chalk.green(amount)}]`);
       cmdFilesFun.forEach(f => {
@@ -40,7 +40,6 @@ const init = async () => {
 
 
     async function allplugins() {
-
 
       var path = "./plugins"
       await readdir(path, function (err, items) {
@@ -71,13 +70,13 @@ const init = async () => {
   
   
   
-    const evtFiles = await readdir("./events/");
+    const evtFiles = await readdir("./src/events/");
     let amount = evtFiles.length
     client.logger.log(`${chalk.bgBlue("[EVENTS]")} Loading ${chalk.green(amount)} events.`);
     evtFiles.forEach(file => {
       const eventName = file.split(".")[0];
       client.logger.log(`[EVENT] Loading Event: ${eventName}`);
-      const event = require(`./events/${file}`);
+      const event = require(`./src/events/${file}`);
   
       client.on(eventName, event.bind(null, client));
     });

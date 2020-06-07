@@ -1,0 +1,12 @@
+{
+
+    "suggestions-channel": "710022036994654303",
+    "approved-channel": "710022036994654304",
+    "commandchannel": "IDHERE",
+    "vote-timeout-in-minutes": 1,
+    "colors": {
+        "defaultembed": "BLUE",
+        "approvedembed": "GREEN"
+    }
+
+}

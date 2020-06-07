@@ -2,6 +2,7 @@ const chalk = require('chalk')
 module.exports = (client) => {
 
 
+    // TODO check for duplicate commands and throw erros if there are any
 
     client.pluginloader = async (pluginname) => {
         client.logger.log(`[${chalk.yellow(`loading ...`)}] "${pluginname}"`)

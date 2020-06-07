@@ -24,17 +24,22 @@ client.aliases = new Enmap();
 client.plugins = new Enmap();
 
 
+
 const init = async () => {
   
-    async function load(category) {
-      let name = category.toUpperCase()
-      const cmdFilesFun = await readdir(`./src/commands/${category}/`);
+    async function load() {
+      
+       
+      
+
+      const cmdFilesFun = await readdir(`./src/commands/`);
       let amount = cmdFilesFun.length
-      client.logger.log(`${chalk.bgBlue("[CATGEORY]")} [${name}] [COMMANDS: ${chalk.green(amount)}]`);
+      client.logger.log(`[COMMANDS: ${chalk.green(amount)}]`);
       cmdFilesFun.forEach(f => {
         if (!f.endsWith(".js")) return;
-        const response = client.loadCommand(category, f);
+        const response = client.loadCommand(f);
         if (response) console.log(response);
+      
       });
     }
 
@@ -58,14 +63,7 @@ const init = async () => {
   
     
   
-    var categorys = [
-      'system'
-    ]
-  
-    categorys.forEach(c => {
-      load(c);
     
-    })
   
   
   
@@ -139,8 +137,10 @@ const init = async () => {
 
   
   
-  
+  module.exports = allplugins, load  
     
 };
   
   init();
+
+ 

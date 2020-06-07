@@ -1,10 +1,10 @@
 module.exports = (client) => { 
 
-    client.loadCommand = (category, commandName) => {
+    client.loadCommand = (commandName) => {
         try {
-          let name = category.toUpperCase()
-          client.logger.log(`[${name}] Loading Command: ${commandName}`);
-          const props = require(`../commands/${category}/${commandName}`);
+          
+          client.logger.log(` Loading Command: ${commandName}`);
+          const props = require(`../commands/${commandName}`);
           if (props.init) {
             props.init(client);
           }

@@ -1,13 +1,27 @@
 exports.plugin = {
   name: "better-suggestions",
-  version: "1.0",
+  version: "1.0.0",
+  events: {
+    message: {
+      run: async (client, message) => {
+        console.log(message.id);
+      },
+    },
+    ready: {
+        run: async () => {
+        console.log("a")
+        }
+    }
+  },
   cmds: {
     suggest: {
       run: async (client, message, args, level) => {
-        const cmd = require('./cmds/suggest');
+        const cmd = require("./cmds/suggest");
         try {
-            cmd.run(client, message, args, level);
-        } catch{console.error} 
+          cmd.run(client, message, args, level);
+        } catch {
+          console.error;
+        }
       },
       conf: {
         enabled: true,
@@ -16,8 +30,8 @@ exports.plugin = {
         permLevel: "STAFF",
       },
       help: {
-        name: "bye",
-        category: "Mod",
+        name: "suggest",
+        category: "Utility",
         description: "This is a creative text, dont mind me",
         usage: "bye -> tells the world goodbye from you.",
       },
@@ -32,7 +46,7 @@ exports.plugin = {
   },
   help: {
     // This info will be displayed in the global pluginmanager command
-    name: "Pluginname",
+    name: "better-suggestions",
     desc:
       "This is a very creative plugindescription, cause i want to see if the formatting worked properly.",
     category: "Utility",

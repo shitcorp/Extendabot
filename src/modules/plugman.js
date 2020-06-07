@@ -54,14 +54,23 @@ module.exports = (client) => {
 
 
     client.eventmanager = async (eventname, arg1, arg2, arg3, arg4) => {
+        console.log("57")
         let plugins = client.plugins
-        for (let plug in plugins) {
+        for (var plug of plugins) {
+            console.log("60")
+           
             if (plugins.hasOwnProperty(plug)) {
+                console.log("61");
                 let plugin = plugins[plug]
+                console.log("63");
                 if (plugin.events) {
+                    console.log("65");
                     for (let event in plugin.events) {
+                        console.log("67");
                         if (plugin.events.hasOwnProperty(event)) {
+                            console.log("69");
                             let runnable = plugin.events[event]
+                            console.log("71");
                             if (event === eventname) {
                                 if (arg1 && !arg2 && !arg3 && !arg4) {
                                     runnable.run(client, arg1);

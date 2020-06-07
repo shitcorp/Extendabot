@@ -8,8 +8,8 @@ exports.run = async (client, message, args, level) => {
 
 
     async function feedbacker(msg, rate) {
-        try {
-        
+
+
         msg.clearReactions().catch(error => {
         });
 
@@ -33,8 +33,7 @@ exports.run = async (client, message, args, level) => {
 
                     if (emoji === '✅') {
                         try {
-                            m.delete().catch(error => {
-                            })
+                            m.delete()
                         } catch (er) {
                             console.log(`Error catched`)
                         }
@@ -75,13 +74,12 @@ exports.run = async (client, message, args, level) => {
                 })
 
             })
-        }).catch(error => {
-        })
-    }.catch(e)
-        {
-            
-        }
+        }).catch()
+
     }
+
+
+
 
 
 

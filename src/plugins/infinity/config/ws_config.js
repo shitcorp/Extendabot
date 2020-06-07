@@ -21,11 +21,8 @@ serverconfig = {
             "type": "STATIC",
             "file": "bar"
         },
-        "img": {
-            "index": "i",
-            "images": {
-                "test": "bar.html"
-            }
+        "downloads": {
+            "test": "testfile.png"
         }
     }
 }

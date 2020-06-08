@@ -8,6 +8,7 @@ const chalk = require("chalk")
 
 const client = new Discord.Client();
 
+
 client.config = require("./config.js");
 
 client.logger = require("./src/modules/Logger");

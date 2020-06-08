@@ -53,38 +53,46 @@ module.exports = (client) => {
 
 
 
-    client.eventmanager = async (eventname, arg1, arg2, arg3, arg4) => {
-        console.log("57")
-        let plugins = client.plugins
-        for (var plug of plugins) {
-            console.log("60")
-           
-            if (plugins.hasOwnProperty(plug)) {
-                console.log("61");
-                let plugin = plugins[plug]
-                console.log("63");
-                if (plugin.events) {
-                    console.log("65");
-                    for (let event in plugin.events) {
-                        console.log("67");
-                        if (plugin.events.hasOwnProperty(event)) {
-                            console.log("69");
-                            let runnable = plugin.events[event]
-                            console.log("71");
-                            if (event === eventname) {
-                                if (arg1 && !arg2 && !arg3 && !arg4) {
-                                    runnable.run(client, arg1);
-                                } else if (arg1 && arg2 && !arg3 && !arg4) {
-                                    runnable.run(client, arg1, arg2);
-                                } else if (arg1 && arg2 && arg3 && !arg4) {
-                                    runnable.run(client, arg1, arg2, arg3);
-                                } else if (arg1 && arg2 && arg3 && arg4) {
-                                    runnable.run(client, arg1, arg2, arg3, arg4)
-                                } else return
-                            }
+    // client.eventmanager = async (eventname, arg1, arg2, arg3, arg4) => {
+    //     const plugins = client.plugins
+    //     for (const plug of plugins) {
+    //         if (plugins.hasOwnProperty(plug)) {
+    //             const plugin = plugins[plug]
+    //             if (plugin.events) {
+    //                 for (const event in plugin.events) {
+    //                     if (plugin.events.hasOwnProperty(event)) {
+    //                         const runnable = plugin.events[event]
+    //                         if (event === eventname) {
+    //                             if (arg1 && !arg2 && !arg3 && !arg4) {
+    //                                 runnable.run(client, arg1);
+    //                             } else if (arg1 && arg2 && !arg3 && !arg4) {
+    //                                 runnable.run(client, arg1, arg2);
+    //                             } else if (arg1 && arg2 && arg3 && !arg4) {
+    //                                 runnable.run(client, arg1, arg2, arg3);
+    //                             } else if (arg1 && arg2 && arg3 && arg4) {
+    //                                 runnable.run(client, arg1, arg2, arg3, arg4)
+    //                             } else return
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    client.eventmanager = async (eventname, ...args) => {
+     
+        for(const plugin of client.plugins) {
+            for (const props of plugin) {
+               const rawevents = props.events      
+                 if (typeof rawevents === "object") {
+                     for (const event in rawevents) {
+                        const runnable = rawevents[event] 
+                        if (event === eventname && runnable) {
+                            runnable.run(client, ... args)
                         }
-                    }
-                }
+                     }
+                 }
             }
         }
     }

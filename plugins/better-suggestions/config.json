@@ -1,8 +1,16 @@
 {
 
-    "suggestions-channel": "710022036994654303",
-    "approved-channel": "710022036994654304",
-    "commandchannel": "710022036994654303",
+    "suggestions-channel": "600812135882293249",
+    "approved-channel": "719536506783399996",
+    "commandchannel": "591156284552773632",
+    "cooldown-in-minutes": 1, 
+    "keywords": [
+        "{s}",
+        "(s)",
+        "[s]",
+        "suggest:",
+        "suggestion:"
+    ],
     "vote-timeout-in-minutes": 1,
     "colors": {
         "defaultembed": "BLUE",

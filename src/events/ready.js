@@ -3,6 +3,8 @@ module.exports = async (client) => {
   
     // Make the bot "play the game" which is the help command with default prefix.
     client.user.setActivity("Yandere Simulator");
+
+    
   
     /*
     !Here we check if the database exists, if not were creating it.

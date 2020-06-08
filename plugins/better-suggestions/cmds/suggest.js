@@ -21,7 +21,11 @@ const config = require('../config.json')
             client.logger.debug(e)
         }
   })
+  const ID = message.author.id
   const texto = args.join(' ')
+  if (texto.length > 250) return message.channel.send(client.error(`Your suggestion text was too long. Please try again.`)).then(msg => {
+    msg.delete({ timeout: 30000 }).catch(console.error)
+  })
   // TODO sanitize input for length
   var embed = new Discord.MessageEmbed()
     .setColor(config.colors.defaultembed)
@@ -30,7 +34,7 @@ const config = require('../config.json')
       message.author.avatarURL({ format: "gif", dynamic: true, size: 1024 })
     )
     .addField("**Suggestion:**", "```" + texto + "```")
-    .addField("**Suggested by:**", message.author.tag)
+    .addField("**Suggested by:**", message.author)
     .setDescription(
       `Please vote with :white_check_mark: or :x: to either let it go through or cancel it. \n\n __**You all have ${config["vote-timeout-in-minutes"]} minutes.**__`
     );
@@ -38,12 +42,32 @@ const config = require('../config.json')
     .get(config["suggestions-channel"])
     .send(embed).then(voteMsg => {
         voteMsg.react("✅").then( voteMsg.react("❌"));
-  setTimeout(function () {
-    var reactions = voteMsg.reactions.cache.array();
+
+      client.messagecache.add(message.id)
+      setTimeout(async function() {
+        client.messagecache.delete(message.id)
+      }, 60000*config["cooldown-in-minutes"])
+
+
+  setTimeout(async function () {
+
+    var reactions = await voteMsg.reactions.cache.array();
     var yesreaction = reactions[0];
     var noreaction = reactions[1];
-    console.log(yesreaction, noreaction)
-    if (yesreaction.count > noreaction.count) {
+    var usercheckyes = yesreaction.users.cache.get(ID)
+    var usercheckno = noreaction.users.cache.get(ID)
+
+    let yescount = yesreaction.count;
+    let nocount = noreaction.count;
+
+    yescount--
+    nocount--
+
+    if (usercheckyes) {parseInt(yescount--)} 
+    if (usercheckno) {parseInt(nocount--)}
+
+    //console.log(yesreaction, noreaction)
+    if (parseInt(yescount) > parseInt(nocount+3)) {
       message
         .reply(
           `The vote is over and your suggestion \`\`\`${texto} \`\`\`has been approved.`
@@ -55,37 +79,51 @@ const config = require('../config.json')
         .setColor(config.colors.approvedembed)
         .setTitle("New Suggestion")
         .addField("**Suggestion:**", "```" + texto + "```")
+        .addField("__**Votes:**__", `👍  **${yescount}**  👎  **${nocount}**`)
         .addField("**Suggested by:**", message.author)
+        .setTimestamp()
         .setThumbnail(
-          message.author.avatarURL({ format: "gif", dynamic: true, size: 1024 })
+          message.author.avatarURL()
         )
-        .setTimestamp();
+        .setFooter(message.author.id);
       client.channels.cache.get(config["approved-channel"]).send(newEmbed);
-    } else if (noreaction.count > yesreaction.count) {
-      message
-        .reply("Unfortunately the vote is over and your suggestion lost.")
-        .then((msg) => {
-          msg.delete({ timeout: 20000 }).catch(console.error);
-        });
-    } else if (noreaction.count == yesreaction.count) {
-      message.reply(
-        `It was a tie! That's cool. Your suggestion: \`\`\`${texto} \`\`\`is gonna go through in that case.`
-      ).then(msg => {
-        msg.delete({timeout: 20000}).catch(console.error)
-      });
-      var newembed = new Discord.MessageEmbed()
-        .setColor(config.colors.approvedembed)
-        .setTitle("New Suggestion")
-        .addField("**Suggestion:**", "```" + texto + "```")
-        .addField("**Suggested by:**", message.author)
-        .setThumbnail(
-          message.author.avatarURL({ format: "gif", dynamic: true, size: 1024 })
-        )
-        .setTimestamp();
-      //send to approved suggestions channel
-      //TODO: APPROVED CHANNEL IN DB UND APPROVEDCHANNEL COMMAND MACHEN DU HURENSOHN!
-      client.channels.cache.get(config["approved-channel"]).send(newembed);
-    }
+    } else if (parseInt(yescount) < parseInt(nocount)) {
+             message
+               .reply(
+                 `Unfortunately the vote is over and your suggestion \`\`\`${texto} \`\`\` lost.`
+               )
+               .then((msg) => {
+                 msg.delete({ timeout: 20000 }).catch(console.error);
+               });
+           } else if (parseInt(yescount) === parseInt(nocount)) {
+                    message
+                      .reply(
+                        `It was a tie! That's cool. Your suggestion: \`\`\`${texto} \`\`\`is gonna go through in that case.`
+                      )
+                      .then((msg) => {
+                        msg.delete({ timeout: 20000 }).catch(console.error);
+                      });
+                    var newembed = new Discord.MessageEmbed()
+                      .setColor(config.colors.approvedembed)
+                      .setTitle("New Suggestion")
+                      .addField("**Suggestion:**", "```" + texto + "```")
+
+                      .addField(
+                        "__**Votes:**__",
+                        `👍  **${yescount}**  👎  **${nocount}**`
+                      )
+                      .addField("**Suggested by:**", message.author)
+                      .setThumbnail(
+                        message.author.avatarURL()
+                      )
+                      .setFooter(message.author.id)
+                      .setTimestamp();
+                    //send to approved suggestions channel
+                    //TODO: APPROVED CHANNEL IN DB UND APPROVEDCHANNEL COMMAND MACHEN DU HURENSOHN!
+                    client.channels.cache
+                      .get(config["approved-channel"])
+                      .send(newembed);
+                  }
   }, 60000*config["vote-timeout-in-minutes"]); //1800000
 })
 };

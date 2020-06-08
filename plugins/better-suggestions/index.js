@@ -1,5 +1,11 @@
-const config = require('./config.json')
+const config = require("./config.json");
 const usercache = new Set();
+
+exports.init = async (client) => {
+
+  require("./util/funcs")(client);
+
+}
 
 exports.plugin = {
   name: "better-suggestions",
@@ -7,43 +13,89 @@ exports.plugin = {
   events: {
     message: {
       run: async (client, message) => {
-        console.log(usercache)
-        if (usercache.has(message.author.id)) {
-          console.log("trud")
-          return message.channel.send(client.error(`Please wait ${config["cooldown-in-minutes"]} minute(s) before submitting another suggestion. \n\nYou are on cooldown as long as you can see this message.`)).then(msg => {
-            msg.delete({timeout: 60000*config["cooldown-in-minutes"]}).catch(console.error)
-          })
-        } else if (!usercache.has(message.author.id)) {
-        config.keywords.forEach(keyword => {
+        config.keywords.forEach((keyword) => {
           if (message.content.toLowerCase().startsWith(`${keyword}`)) {
-            const rawargs = message.content.split(' ')
-            rawargs.shift()
-            const cmd = require("./cmds/suggest");
-            try {
-              cmd.run(client, message, rawargs); 
+            if (usercache.has(message.author.id)) {
+              message.delete().catch(console.error);
+              return message
+                .reply(
+                  client.error(
+                    `\`\`\`You have a pendig suggestion going right now. Please wait ${config["cooldown-in-minutes"]} minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** You are on cooldown as long as you can see this message.`
+                  )
+                )
+                .then((msg) => {
+                  msg
+                    .delete({ timeout: 60000*config["cooldown-in-minutes"] })
+                    .catch(console.error);
+                });
+            } else {
+              const rawargs = message.content.split(" ");
+              rawargs.shift();
+              const cmd = require("./cmds/suggest");
+              try {
+                cmd.run(client, message, rawargs);
+                usercache.add(message.author.id);
+              } catch {
+                console.error;
+              }
               usercache.add(message.author.id);
               setTimeout(async function () {
                 usercache.delete(message.author.id);
-              }, 60000 * config["cooldown-in-minutes"]);
-            } catch {
-              console.error;
+              }, 60000*config["cooldown-in-minutes"]);
             }
           }
-        })
-      } 
-    } 
+        });
+      },
     },
+    messageReactionAdd: {
+      run: async (reaction, user) => {
+        if (reaction.partial) {
+          try {
+            await reaction.fetch();
+          } catch(error) {
+            console.error(error)
+            return;
+          }
+        console.log(
+          `${reaction.message.author}'s message "${reaction.message.content}" gained a reaction!`
+        );
+        console.log(
+          `${reaction.count} user(s) have given the same reaction to this message!`
+        );
+        }
+        
+      }
+    }
   },
   cmds: {
     suggest: {
       run: async (client, message, args, level) => {
         if (message.channel.id !== config.commandchannel) return;
+        if (usercache.has(message.author.id)) {
+          message.delete().catch(console.error);
+          return message
+            .reply(
+              client.error(
+                `\`\`\`Please wait ${config["cooldown-in-minutes"]} minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** You are on cooldown as long as you can see this message.`
+              )
+            )
+            .then((msg) => {
+              msg
+                .delete({ timeout: 60000 * config["cooldown-in-minutes"] })
+                .catch(console.error);
+            });
+        } else {
         const cmd = require("./cmds/suggest");
         try {
           cmd.run(client, message, args, level);
+          usercache.add(message.author.id);
+          setTimeout(async function () {
+            usercache.delete(message.author.id);
+          }, 60000 * config["cooldown-in-minutes"]);
         } catch {
           console.error;
         }
+      }
       },
       conf: {
         enabled: true,
@@ -58,6 +110,20 @@ exports.plugin = {
         usage: "bye -> tells the world goodbye from you.",
       },
     },
+    help: {
+      run: async (client, message, args, level) => {
+        message.channel.send(`Loading . . .`)
+      },
+      conf: {
+        enabled: true,
+        category: "Utility",
+        description: "Display all commands.",
+        usage: "help"
+      },
+      help: {
+
+      }
+    }
   },
   conf: {
     version: "1.0.0", // BOT version

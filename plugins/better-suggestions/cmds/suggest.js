@@ -2,7 +2,7 @@
 
 exports.run = (client, message, args, level) => {
 try {
-  message.delete()
+  message.delete({ timeout: 60000 })
 } catch(e) {
   console.error(e)
 }
@@ -13,19 +13,24 @@ const Discord = require('discord.js')
 const config = require('../config.json')
 
 
+const texto = args.join(" ");
+ if (texto.length > 955)
+   return message.channel
+     .send(client.error(`Your suggestion text was too long. You used \`${texto.length}\` out of \`955\` allowed characters. \nPlease try again.`))
+     .then((msg) => {
+       msg.delete({ timeout: 60000 }).catch(console.error);
+     });
 
-  message.reply(`Thank you for your suggestion it has been posted in ${message.guild.channels.cache.get(config["suggestions-channel"]).toString()}`).then(msg => {
+
+message.reply(`Thank you for your suggestion it has been posted in ${message.guild.channels.cache.get(config["suggestions-channel"]).toString()}`).then(msg => {
         try {
-            msg.delete({ timeout: 20000 });
+            msg.delete({ timeout: 60000 });
         } catch(e) {
             client.logger.debug(e)
         }
   })
   const ID = message.author.id
-  const texto = args.join(' ')
-  if (texto.length > 250) return message.channel.send(client.error(`Your suggestion text was too long. Please try again.`)).then(msg => {
-    msg.delete({ timeout: 30000 }).catch(console.error)
-  })
+  
   // TODO sanitize input for length
   var embed = new Discord.MessageEmbed()
     .setColor(config.colors.defaultembed)
@@ -51,6 +56,22 @@ const config = require('../config.json')
 
   setTimeout(async function () {
 
+    function endembedder(message, color, opt, yescount, nocount) {
+      const over = new Discord.MessageEmbed()
+        .setTitle(`This suggestion ${opt}.`)
+        .setColor(color)
+        .addField("**Suggestion:**", "```" + texto + "```")
+        .addField("__**Votes:**__", `👍  **${yescount}**  👎  **${nocount}**`)
+        .addField("**Suggested by:**", message.author)
+        .setTimestamp()
+        .setThumbnail(message.author.avatarURL())
+        .setFooter(message.author.id)
+        if (opt === "won") {
+          over.setDescription(`Posted in ${message.guild.channels.cache.get(config["approved-channel"]).toString()}`)
+        }
+      return over;
+    }
+
     var reactions = await voteMsg.reactions.cache.array();
     var yesreaction = reactions[0];
     var noreaction = reactions[1];
@@ -68,6 +89,9 @@ const config = require('../config.json')
 
     //console.log(yesreaction, noreaction)
     if (parseInt(yescount) > parseInt(nocount+3)) {
+
+      voteMsg.edit(endembedder(message, config.colors.approvedembed, "won", parseInt(yescount), parseInt(nocount)))
+
       message
         .reply(
           `The vote is over and your suggestion \`\`\`${texto} \`\`\`has been approved.`
@@ -88,6 +112,8 @@ const config = require('../config.json')
         .setFooter(message.author.id);
       client.channels.cache.get(config["approved-channel"]).send(newEmbed);
     } else if (parseInt(yescount) < parseInt(nocount)) {
+      voteMsg.reactions.removeAll();
+      voteMsg.edit(message, "RED", "lost", parseInt(yescount), parseInt(nocount))
              message
                .reply(
                  `Unfortunately the vote is over and your suggestion \`\`\`${texto} \`\`\` lost.`
@@ -96,6 +122,16 @@ const config = require('../config.json')
                  msg.delete({ timeout: 20000 }).catch(console.error);
                });
            } else if (parseInt(yescount) === parseInt(nocount)) {
+             voteMsg.reactions.removeAll()
+             voteMsg.edit(
+               endembedder(
+                 message,
+                 config.colors.approvedembed,
+                 "won",
+                 parseInt(yescount),
+                 parseInt(nocount)
+               )
+             );
                     message
                       .reply(
                         `It was a tie! That's cool. Your suggestion: \`\`\`${texto} \`\`\`is gonna go through in that case.`

@@ -1,5 +1,6 @@
 const config = require("./config.json");
 const usercache = new Set();
+const { MessageEmbed } = require('discord.js')
 
 exports.init = async (client) => {
 
@@ -20,12 +21,11 @@ exports.plugin = {
               return message
                 .reply(
                   client.error(
-                    `\`\`\`You have a pendig suggestion going right now. Please wait ${config["cooldown-in-minutes"]} minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** You are on cooldown as long as you can see this message.`
-                  )
+                    `\`\`\`You have a pendig suggestion going right now. Please wait at least ${config["cooldown-in-minutes"]-1} minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can only have one pending suggestion at the time.`)
                 )
                 .then((msg) => {
                   msg
-                    .delete({ timeout: 60000*config["cooldown-in-minutes"] })
+                    .delete({ timeout: 60000 })
                     .catch(console.error);
                 });
             } else {
@@ -76,7 +76,9 @@ exports.plugin = {
           return message
             .reply(
               client.error(
-                `\`\`\`Please wait ${config["cooldown-in-minutes"]} minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** You are on cooldown as long as you can see this message.`
+                `\`\`\`You have a pendig suggestion going right now. Please wait at least ${
+                  config["cooldown-in-minutes"] - 1
+                } minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can only have one pending suggestion at the time.`
               )
             )
             .then((msg) => {
@@ -110,20 +112,6 @@ exports.plugin = {
         usage: "bye -> tells the world goodbye from you.",
       },
     },
-    help: {
-      run: async (client, message, args, level) => {
-        message.channel.send(`Loading . . .`)
-      },
-      conf: {
-        enabled: true,
-        category: "Utility",
-        description: "Display all commands.",
-        usage: "help"
-      },
-      help: {
-
-      }
-    }
   },
   conf: {
     version: "1.0.0", // BOT version

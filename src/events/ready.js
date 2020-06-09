@@ -5,7 +5,6 @@ module.exports = async (client) => {
     client.user.setActivity("Yandere Simulator");
 
     
-  
     /*
     !Here we check if the database exists, if not were creating it.
     !This is important cause it will create this database if the bot

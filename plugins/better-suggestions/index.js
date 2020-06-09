@@ -14,6 +14,7 @@ exports.plugin = {
   events: {
     message: {
       run: async (client, message) => {
+        console.log(message.flags)
         config.keywords.forEach((keyword) => {
           if (message.content.toLowerCase().startsWith(`${keyword}`)) {
             if (usercache.has(message.author.id)) {

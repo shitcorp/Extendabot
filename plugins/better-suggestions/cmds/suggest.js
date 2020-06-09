@@ -57,7 +57,7 @@ message.reply(`Thank you for your suggestion it has been posted in ${message.gui
   setTimeout(async function () {
 
     function endembedder(message, color, opt, yescount, nocount) {
-      const over = new Discord.MessageEmbed()
+      var over = new Discord.MessageEmbed()
         .setTitle(`This suggestion ${opt}.`)
         .setColor(color)
         .addField("**Suggestion:**", "```" + texto + "```")
@@ -67,8 +67,13 @@ message.reply(`Thank you for your suggestion it has been posted in ${message.gui
         .setThumbnail(message.author.avatarURL())
         .setFooter(message.author.id)
         if (opt === "won") {
-          over.setDescription(`Posted in ${message.guild.channels.cache.get(config["approved-channel"]).toString()}`)
+          
+        over.setDescription(`Posted in ${message.guild.channels.cache.get(config["approved-channel"]).toString()}`)
+
+        } else if (opt === "lost") {
+          over.setColor("RED")
         }
+        
       return over;
     }
 
@@ -84,13 +89,16 @@ message.reply(`Thank you for your suggestion it has been posted in ${message.gui
     yescount--
     nocount--
 
-    if (usercheckyes) {parseInt(yescount--)} 
-    if (usercheckno) {parseInt(nocount--)}
-
+    //if (usercheckyes) {parseInt(yescount--)} 
+    //if (usercheckno) {parseInt(nocount--)}
+console.log(yescount,nocount)
+console.log(parseInt(yescount) > parseInt(nocount + 3));
+console.log(parseInt(yescount) > parseInt(nocount));
     //console.log(yesreaction, noreaction)
-    if (parseInt(yescount) > parseInt(nocount+3)) {
-
-      voteMsg.edit(endembedder(message, config.colors.approvedembed, "won", parseInt(yescount), parseInt(nocount)))
+    if (parseInt(yescount) >= parseInt(nocount+3)) {
+console.log("suggestion won")
+    await voteMsg.reactions.removeAll();
+    await voteMsg.edit(endembedder(message, config.colors.approvedembed, "won", parseInt(yescount), parseInt(nocount)))
 
       message
         .reply(
@@ -111,9 +119,9 @@ message.reply(`Thank you for your suggestion it has been posted in ${message.gui
         )
         .setFooter(message.author.id);
       client.channels.cache.get(config["approved-channel"]).send(newEmbed);
-    } else if (parseInt(yescount) < parseInt(nocount)) {
-      voteMsg.reactions.removeAll();
-      voteMsg.edit(message, "RED", "lost", parseInt(yescount), parseInt(nocount))
+    }  else if (parseInt(yescount) <= parseInt(nocount+3)) {
+      await voteMsg.reactions.removeAll();
+      await voteMsg.edit(endembedder(message, config.colors.defaultembed, "lost", parseInt(yescount), parseInt(nocount))).catch(console.error)
              message
                .reply(
                  `Unfortunately the vote is over and your suggestion \`\`\`${texto} \`\`\` lost.`
@@ -121,9 +129,10 @@ message.reply(`Thank you for your suggestion it has been posted in ${message.gui
                .then((msg) => {
                  msg.delete({ timeout: 20000 }).catch(console.error);
                });
-           } else if (parseInt(yescount) === parseInt(nocount)) {
-             voteMsg.reactions.removeAll()
-             voteMsg.edit(
+           } 
+          if (parseInt(yescount) === parseInt(nocount)) {
+             await voteMsg.reactions.removeAll()
+             await voteMsg.edit(
                endembedder(
                  message,
                  config.colors.approvedembed,

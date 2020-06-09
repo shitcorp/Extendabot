@@ -33,6 +33,26 @@ exports.plugin = {
               rawargs.shift();
               const cmd = require("./cmds/suggest");
               try {
+                if (!rawargs[0])
+                  return message
+                    .reply(
+                      client.error(`You forgot to give an actual suggestion.`)
+                    )
+                    .then((msg) =>
+                      msg.delete({ timeout: 20000 }).catch(console.error)
+                    );
+
+                const texto = rawargs.join(" ");
+                if (texto.length > 955)
+                  return message.channel
+                    .send(
+                      client.error(
+                        `Your suggestion text was too long. You used \`${texto.length}\` out of \`955\` allowed characters. \nPlease try again.`
+                      )
+                    )
+                    .then((msg) => {
+                      msg.delete({ timeout: 60000 }).catch(console.error);
+                    });
                 cmd.run(client, message, rawargs);
                 usercache.add(message.author.id);
               } catch {
@@ -48,7 +68,8 @@ exports.plugin = {
       },
     },
     messageReactionAdd: {
-      run: async (reaction, user) => {
+      run: async (client, reaction, user) => {
+        //console.log(reaction)
         if (reaction.partial) {
           try {
             await reaction.fetch();

@@ -15,7 +15,7 @@ if (message.author.bot) return
   
     const msgdel = client.config.msgdelete
     //const settings = client.dbgetconfig(message)
-    const Prefix = "!"
+    const Prefix = client.config.prefix
 
 
 
@@ -23,11 +23,11 @@ if (message.author.bot) return
 
 
 
-    const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
-    if (message.content.match(prefixMention)) {
-      return message.reply(client.embed(`My prefix on this guild is ${Prefix}` ))
-          .then(msg => { msg.delete(msgdel).catch(error => {}) });
-    }
+    // const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
+    // if (message.content.match(prefixMention)) {
+    //   return message.reply(client.embed(`My prefix on this guild is ${Prefix}` ))
+    //       .then(msg => { msg.delete({ timeout: msgdel }).catch(error => {console.error(error)}) });
+    // }
   
   
     if (message.content.indexOf(Prefix) !== 0) return;

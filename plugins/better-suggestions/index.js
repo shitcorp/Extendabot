@@ -5,6 +5,8 @@ const { MessageEmbed } = require('discord.js')
 exports.init = async (client) => {
 
   require("./util/funcs")(client);
+  let handler = require('./util/db')
+  await handler.dbinit();
 
 }
 
@@ -14,7 +16,7 @@ exports.plugin = {
   events: {
     message: {
       run: async (client, message) => {
-        console.log(message.flags)
+        console.log(message.flags);
         config.keywords.forEach((keyword) => {
           if (message.content.toLowerCase().startsWith(`${keyword}`)) {
             if (usercache.has(message.author.id)) {
@@ -22,12 +24,13 @@ exports.plugin = {
               return message
                 .reply(
                   client.error(
-                    `\`\`\`You have a pendig suggestion going right now. Please wait at least ${config["cooldown-in-minutes"]-1} minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can only have one pending suggestion at the time.`)
+                    `\`\`\`You have a pendig suggestion going right now. Please wait at least ${
+                      config["cooldown-in-minutes"] - 1
+                    } minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can only have one pending suggestion at the time.`
+                  )
                 )
                 .then((msg) => {
-                  msg
-                    .delete({ timeout: 60000 })
-                    .catch(console.error);
+                  msg.delete({ timeout: 60000 }).catch(console.error);
                 });
             } else {
               const rawargs = message.content.split(" ");
@@ -62,7 +65,7 @@ exports.plugin = {
               usercache.add(message.author.id);
               setTimeout(async function () {
                 usercache.delete(message.author.id);
-              }, 60000*config["cooldown-in-minutes"]);
+              }, 60000 * config["cooldown-in-minutes"]);
             }
           }
         });
@@ -74,20 +77,19 @@ exports.plugin = {
         if (reaction.partial) {
           try {
             await reaction.fetch();
-          } catch(error) {
-            console.error(error)
+          } catch (error) {
+            console.error(error);
             return;
           }
-        console.log(
-          `${reaction.message.author}'s message "${reaction.message.content}" gained a reaction!`
-        );
-        console.log(
-          `${reaction.count} user(s) have given the same reaction to this message!`
-        );
+          console.log(
+            `${reaction.message.author}'s message "${reaction.message.content}" gained a reaction!`
+          );
+          console.log(
+            `${reaction.count} user(s) have given the same reaction to this message!`
+          );
         }
-        
-      }
-    }
+      },
+    },
   },
   cmds: {
     suggest: {
@@ -109,17 +111,17 @@ exports.plugin = {
                 .catch(console.error);
             });
         } else {
-        const cmd = require("./cmds/suggest");
-        try {
-          cmd.run(client, message, args, level);
-          usercache.add(message.author.id);
-          setTimeout(async function () {
-            usercache.delete(message.author.id);
-          }, 60000 * config["cooldown-in-minutes"]);
-        } catch {
-          console.error;
+          const cmd = require("./cmds/suggest");
+          try {
+            cmd.run(client, message, args, level);
+            usercache.add(message.author.id);
+            setTimeout(async function () {
+              usercache.delete(message.author.id);
+            }, 60000 * config["cooldown-in-minutes"]);
+          } catch {
+            console.error;
+          }
         }
-      }
       },
       conf: {
         enabled: true,
@@ -132,6 +134,28 @@ exports.plugin = {
         category: "Utility",
         description: "This is a creative text, dont mind me",
         usage: "bye -> tells the world goodbye from you.",
+      },
+    },
+    stats: {
+      run: async (client, message, args, level) => {
+        let cmd = require('./cmds/add')
+        try {
+          cmd.run(client, message, args, level)
+        } catch(e) {
+          console.error(e)
+        }
+      },
+      conf: {
+        enabled: true,
+        guildOnly: true,
+        aliases: [],
+        permLevel: "STAFF",
+      },
+      help: {
+        name: "stats",
+        category: "Utility",
+        description: "This is a creative text, dont mind me",
+        usage: "Returns your statistics.",
       },
     },
   },

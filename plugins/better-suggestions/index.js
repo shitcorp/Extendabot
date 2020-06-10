@@ -19,7 +19,7 @@ exports.plugin = {
       run: async (client) => {
         var CronJob = require('cron').CronJob;
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>  Better Suggestions is ready.")
-        var job = new CronJob('0 */10 * * * *', function() {
+        var job = new CronJob('0 */7 * * * *', function() {
           
           client.voteend("589958750866112512", "632275715391225865");
           client.logger.ready(`Checked all suggestions successfully.`)
@@ -70,7 +70,7 @@ exports.plugin = {
                       msg.delete({ timeout: 20000 }).catch(console.error)
                     );
 
-                    
+
 
                 const texto = rawargs.join(" ");
                 if (texto.length > 955)
@@ -98,25 +98,6 @@ exports.plugin = {
         });
       },
     },
-    messageReactionAdd: {
-      run: async (client, reaction, user) => {
-        //console.log(reaction)
-        if (reaction.partial) {
-          try {
-            await reaction.fetch();
-          } catch (error) {
-            console.error(error);
-            return;
-          }
-          console.log(
-            `${reaction.message.author}'s message "${reaction.message.content}" gained a reaction!`
-          );
-          console.log(
-            `${reaction.count} user(s) have given the same reaction to this message!`
-          );
-        }
-      },
-    },
   },
   cmds: {
     suggest: {
@@ -138,7 +119,7 @@ exports.plugin = {
                 .catch(console.error);
             });
         } else {
-          const cmd = require("./cmds/suggest");
+          const cmd = require("./cmds/add");
           try {
             cmd.run(client, message, args, level);
             usercache.add(message.author.id);
@@ -165,7 +146,7 @@ exports.plugin = {
     },
     stats: {
       run: async (client, message, args, level) => {
-        let cmd = require('./cmds/add')
+        let cmd = require('./cmds/edit')
         try {
           cmd.run(client, message, args, level)
         } catch(e) {

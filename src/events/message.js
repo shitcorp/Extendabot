@@ -15,7 +15,7 @@ if (message.author.bot) return
   
     const msgdel = client.config.msgdelete
     //const settings = client.dbgetconfig(message)
-    const Prefix = `<@!${client.user.id}>`
+    const Prefix = client.config.prefix
 
 
 

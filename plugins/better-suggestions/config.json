@@ -1,15 +1,12 @@
 {
 
     "suggestions-channel": "632275715391225865",
-    "approved-channel": "719536506783399996",
+    "approved-channel": "632275715391225865",
     "commandchannel": "600812135882293249",
     "max-vote-timeout-in-days": 3,
     "cooldown-in-minutes": 1, 
     "keywords": [
-        "(b)",
-        "[b]",
-        "buggest:",
-        "buggestion:"
+        "(b)"
     ],
     "vote-timeout-in-minutes": 1,
     "colors": {

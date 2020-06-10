@@ -2,12 +2,7 @@ const config = require('../config.json')
 
 module.exports = (client) => {
 
-    client.messagecache = new Set()
-    client.yes = {},
-        client.no = {}
-
-
-    client.voteend = (guildid, channelid) => {
+    client.voteend = async (guildid, channelid) => {
 
         const handle = require('./db')
 
@@ -22,17 +17,16 @@ module.exports = (client) => {
         const channel = client.guilds.cache.get(guildid).channels.cache.get(channelid)
 
         channel.messages
-            .fetch({ limit: 55 })
-            .then((messages) => {
+            .fetch({ limit: 66 })
+            .then(async (messages) => {
                 let output = 0;
                 for (const message of messages) {
                     for (const props of message) {
                         if (typeof props.embeds === "object") {
                             for (const embed of props.embeds) {
                                 if (embed.footer !== null) {
-
                                     try {
-                                        handle.dbfindbyid(embed.footer.text).then(resp => {
+                                        handle.dbfindbyid(embed.footer.text).then(async resp => {
                                             if (!resp[0]) return new Error(`Document not found`)
                                             let systime = Date.now()
                                             if (resp[0].expires != "expired") {
@@ -40,8 +34,7 @@ module.exports = (client) => {
                                                     var up = 0;
                                                     var down = 0;
                                                     channel.messages.fetch(resp[0].msgid)
-                                                        .then(message => {
-
+                                                        .then(async message => {
                                                             if (message.reactions.cache.size > 0) {
                                                                 if (typeof message.reactions.cache.get("✅") === "object") {
 
@@ -70,16 +63,18 @@ module.exports = (client) => {
                                                                                 lost();
                                                                             }
 
-                                                                            function won() {
+                                                                            async function won() {
                                                                                 message.reactions.removeAll();
                                                                                 message.edit(client.suggestioneend(message, client.users.cache.get(resp[0].author), resp[0].suggestion, "won", up, down, resp[0]._id))
-                                                                                handle.dbupdate(resp[0].id, { expires: "expired" })
+                                                                                message.guild.channels.cache.get(config["approved-channel"]).send(client.suggestioneend(message, client.users.cache.get(resp[0].author), resp[0].suggestion, "won", up, down, resp[0]._id)).then(msg => {
+                                                                                    handle.dbupdate(resp[0].id, { expires: "expired", approved: true, apprmsgid: msg.id, upvotes: up, dowvotes: down })
+                                                                                })
                                                                             }
 
-                                                                            function lost() {
+                                                                            async function lost() {
                                                                                 message.reactions.removeAll();
                                                                                 message.edit(client.suggestioneend(message, client.users.cache.get(resp[0].author), resp[0].suggestion, "lost", up, down, resp[0]._id))
-                                                                                handle.dbupdate(resp[0].id, { expires: "expired" })
+                                                                                handle.dbupdate(resp[0].id, { expires: "expired", upvotes: up, dowvotes: down })
                                                                             }
 
 
@@ -114,8 +109,8 @@ module.exports = (client) => {
 
             })
 
+            
     }
-
 
     client.newsuggestion = (message, text, expires, id) => {
         const { MessageEmbed } = require('discord.js')

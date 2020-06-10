@@ -71,5 +71,26 @@ module.exports = {
             if (err) return console.error(err); 
         })
 
+    },
+    dbupdate: (ID, obj) => {
+        Suggestionmodel.updateOne({_id: ID}, obj, function(err, affected, resp) {
+            if(err) console.error(err)
+            console.log(affected, resp)
+        })
+    },
+    dbfindmultiplebyid: async (ID) => {
+                                Suggestionmodel.find({ author: ID })
+                                  .limit(10)
+                                  .sort("time");
+                                  let output = 0;
+                                for await (const doc of Suggestionmodel.find({author: ID})) {
+                                  console.log(doc); // Prints documents one at a time
+                                  output++
+                                }
+                                return output
+                              },
+
+    dbfindbyid: async (ID) => {
+        return Suggestionmodel.find({_id: ID});
     }
 }

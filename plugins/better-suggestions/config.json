@@ -4,14 +4,14 @@
     "approved-channel": "719536506783399996",
     "commandchannel": "600812135882293249",
     "max-vote-timeout-in-days": 3,
-    "cooldown-in-minutes": 60, 
+    "cooldown-in-minutes": 1, 
     "keywords": [
         "(b)",
         "[b]",
         "buggest:",
         "buggestion:"
     ],
-    "vote-timeout-in-minutes": 60,
+    "vote-timeout-in-minutes": 1,
     "colors": {
         "defaultembed": "BLUE",
         "approvedembed": "GREEN"

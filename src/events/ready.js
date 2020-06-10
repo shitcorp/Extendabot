@@ -4,7 +4,12 @@ module.exports = async (client) => {
     // Make the bot "play the game" which is the help command with default prefix.
     client.user.setActivity("Yandere Simulator");
 
-    
+    client.eventmanager("ready", client)
+
+    // client.guilds.cache
+    //   .get("589958750866112512")
+    //   .channels.cache.get("589961271122853898")
+    //   .send("Edvio gay.");
     /*
     !Here we check if the database exists, if not were creating it.
     !This is important cause it will create this database if the bot

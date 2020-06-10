@@ -15,7 +15,7 @@ if (message.author.bot) return
   
     const msgdel = client.config.msgdelete
     //const settings = client.dbgetconfig(message)
-    const Prefix = client.config.prefix
+    const Prefix = `<@!${client.user.id}>`
 
 
 
@@ -81,17 +81,17 @@ if (message.author.bot) return
   
     // global cooldown here
     if (cmdRecently.has(message.author.id)) {
-      return message.reply(client.warning(`Please wait  \`${client.config.cooldown / 1000}\`  seconds before doing this command again!`)).then(msg => {
-        msg.delete(msgdel).catch(error => {
+      return message.reply(client.warning(`Please wait  \`${60000*client.config.cooldown}\`  minute(s) before doing this command again!`)).then(msg => {
+        msg.delete({timeout: msgdel}).catch(error => {
           
         })
-        message.delete(msgdel).catch(error => {});
+        message.delete({timeout: msgdel}).catch(error => {});
       })
     } else {
       cmdRecently.add(message.author.id)
       setTimeout(() => {
         cmdRecently.delete(message.author.id)
-      }, client.config.cooldown)
+      }, 60000*client.config.cooldown)
   
       
   

@@ -7,6 +7,7 @@ exports.init = async (client) => {
   require("./util/funcs")(client);
   let handler = require('./util/db')
   await handler.dbinit();
+ 
 
 }
 
@@ -14,11 +15,33 @@ exports.plugin = {
   name: "better-suggestions",
   version: "1.0.0",
   events: {
+    ready: {
+      run: async (client) => {
+        var CronJob = require('cron').CronJob;
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>  Better Suggestions is ready.")
+        var job = new CronJob('0 */10 * * * *', function() {
+          
+          client.voteend("589958750866112512", "632275715391225865");
+          client.logger.ready(`Checked all suggestions successfully.`)
+          client.logger.log(`You should see this every 10 minutes.`)
+
+        }, null, true, 'America/Los_Angeles');
+        job.start();
+        client.logger.log(`Cron job started.`)
+      }
+    },
     message: {
       run: async (client, message) => {
-        console.log(message.flags);
+        
         config.keywords.forEach((keyword) => {
+        
           if (message.content.toLowerCase().startsWith(`${keyword}`)) {
+        const args = message.content.slice(keyword.length).trim().split(/ +/g);
+        message.flags = [];
+        while (args[0] && args[0][0] === "-") {
+          message.flags.push(args.shift().slice(1));
+        }
+        console.log(message.flags)
             if (usercache.has(message.author.id)) {
               message.delete().catch(console.error);
               return message
@@ -33,9 +56,10 @@ exports.plugin = {
                   msg.delete({ timeout: 60000 }).catch(console.error);
                 });
             } else {
-              const rawargs = message.content.split(" ");
-              rawargs.shift();
-              const cmd = require("./cmds/suggest");
+              
+              const rawargs = args;
+              //rawargs.shift();
+              const cmd = require("./cmds/add");
               try {
                 if (!rawargs[0])
                   return message
@@ -45,6 +69,8 @@ exports.plugin = {
                     .then((msg) =>
                       msg.delete({ timeout: 20000 }).catch(console.error)
                     );
+
+                    
 
                 const texto = rawargs.join(" ");
                 if (texto.length > 955)
@@ -57,6 +83,7 @@ exports.plugin = {
                     .then((msg) => {
                       msg.delete({ timeout: 60000 }).catch(console.error);
                     });
+                     
                 cmd.run(client, message, rawargs);
                 usercache.add(message.author.id);
               } catch {

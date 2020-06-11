@@ -23,7 +23,7 @@ module.exports = (client) => {
                 let i = 1;
                 let k = messages.size
                 for (const message of messages) {
-                    client.logger.debug(`Checking message ${i}/${k} ( ID: ${message.id} )`)
+                    client.logger.debug(`Checking message ${i}/${k} ( ID: ${message} )`)
                     for (const props of message) {
                         if (typeof props.embeds === "object") {
                             for (const embed of props.embeds) {

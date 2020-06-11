@@ -7,12 +7,31 @@ exports.run = async (client, message, args, level) => {
   const uniqid = require('uniqid');
   const systime = Date.now();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   for (const key of cconfig) {
+    console.log(key)
+    console.log(key._id)
     console.log(key.votetimeout)
   }
 
-  
-  var expires = systime + 6000 * 1
+
+  var expires = systime + 6000 * config["vote-timeout-in-minutes"]
   
   if (!message.flags[0]) {
     suggestionstarter()

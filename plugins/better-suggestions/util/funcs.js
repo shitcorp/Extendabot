@@ -134,6 +134,7 @@ module.exports = (client) => {
             .setTimestamp();
         return embed;
     }
+    
 
     client.suggestioneend = (message, author, text, opt, up, down, id) => {
         const { MessageEmbed } = require("discord.js");

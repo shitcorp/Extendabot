@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { VoiceState } = require('discord.js');
+const { timeout } = require('cron');
 mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , useUnifiedTopology: true });
 
 
@@ -18,11 +20,24 @@ mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , us
    apprmsgid: String
  });
 
- // TODO: update mdgid on approval
 
  const Suggestionmodel = mongoose.model("Suggestion", suggestionschema);
 
+ const configschema = new mongoose.Schema({
+   _id: String,
+   suggestions_channel: String,
+   approved_channel: String,
+   commandchannel: String,
+   max_vote_timeout_in_days: Number,
+   cooldown_in_minutes: Number,
+   keywords: Array,
+   staffrole: String,
+   deafult_vote_timeout_in_minutes: Number,
+   defaultembed: String,
+   approvedembed: String
+ })
 
+ const Suggestionconfigmodel = new mongoose.model("Suggestionconfig", configschema)
 
 
 
@@ -33,9 +48,6 @@ mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , us
 module.exports = {
     
     dbinit: () => {
-
-
-
         var db = mongoose.connection;
         db.on(
           "error",
@@ -46,41 +58,39 @@ module.exports = {
         );
 
         db.once("open", function () {
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>  Mongo DB connection sucesfull");
-
-          const samplesuggestion = new Suggestionmodel({
-            _id: "1123456",
-            suggestion: "Something creative",
-            author: "Meer",
-            systemtime: `${new Date()}`,
-            approved: true,
-            expires: "121212121212",
-            upvotes: "5",
-            downvotes: "1",
-          });
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>  Mongo DB connection was established.");
         });
-
-
-
-
+    },
+    configpush: async (config) => {
+      const suggestionconfig = new Suggestionconfigmodel(config)
+      suggestionconfig.save(function(err) {
+        if (err) return err;
+      });
+    },
+    configget: async (ID) => {
+      return Suggestionconfigmodel.find({_id: ID});
+    },
+    configupdate: async (ID, obj) => {
+      Suggestionconfigmodel.updateOne({_id: ID}, obj, function(err, affected) {
+        if (err) return err;
+      })
     },
     dbpush: (suggestion) => {
 
         const usersuggestion = new Suggestionmodel(suggestion)
         usersuggestion.save(function (err) {
-            if (err) return console.error(err); 
-        })
+            if (err) return err
+        });
 
     },
     dbupdate: (ID, obj) => {
         Suggestionmodel.updateOne({_id: ID}, obj, function(err, affected, resp) {
-            if(err) console.error(err)
-            console.log(affected, resp)
-        })
+            if(err) return err
+        });
     },
     dbfindmultiplebyid: async (ID) => {
                                 Suggestionmodel.find({ author: ID })
-                                  .limit(10)
+                                  .limit(25)
                                   .sort("time");
                                   let output = 0;
                                 for await (const doc of Suggestionmodel.find({author: ID})) {

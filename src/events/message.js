@@ -81,7 +81,7 @@ if (message.author.bot) return
   
     // global cooldown here
     if (cmdRecently.has(message.author.id)) {
-      return message.reply(client.warning(`Please wait  \`${60000*client.config.cooldown}\`  minute(s) before doing this command again!`)).then(msg => {
+      return message.reply(client.warning(`Please wait  \`${60000/client.config.cooldown}\`  minute(s) before doing this command again!`)).then(msg => {
         msg.delete({timeout: msgdel}).catch(error => {
           
         })
@@ -91,7 +91,7 @@ if (message.author.bot) return
       cmdRecently.add(message.author.id)
       setTimeout(() => {
         cmdRecently.delete(message.author.id)
-      }, 60000*client.config.cooldown)
+      }, 6000*client.config.cooldown)
   
       
   

@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const moment = require("moment");
+const conf = require('../../loggerconf.json')
 
 exports.log = (content, type = "log") => {
   const timestamp = `[${moment().format("YYYY-MM-DD HH:mm:ss")}]:`;
@@ -14,6 +15,7 @@ exports.log = (content, type = "log") => {
       return console.log(`${timestamp} ${chalk.bgRed(type.toUpperCase())} ${content} `);
     }
     case "debug": {
+      if (!conf.debug) return;
       return console.log(`${timestamp} ${chalk.green(type.toUpperCase())} ${content} `);
     }
     case "cmd": {

@@ -17,10 +17,13 @@ module.exports = (client) => {
         const channel = client.guilds.cache.get(guildid).channels.cache.get(channelid)
 
         channel.messages
-            .fetch({ limit: 66 })
+            .fetch({ limit: 100 })
             .then(async (messages) => {
-                let output = 0;
+                client.logger.log(`Fetched ${messages.size} Messages.`)
+                let i = 1;
+                let k = messages.size
                 for (const message of messages) {
+                    client.logger.debug(`Checking message ${i}/${k} ( ID: ${message.id} )`)
                     for (const props of message) {
                         if (typeof props.embeds === "object") {
                             for (const embed of props.embeds) {
@@ -31,6 +34,7 @@ module.exports = (client) => {
                                             let systime = Date.now()
                                             if (resp[0].expires != "expired") {
                                                 if (systime > resp[0].expires) {
+                                                    console.log(`Suggestion ${resp[0]._id} expired.`)
                                                     var up = 0;
                                                     var down = 0;
                                                     channel.messages.fetch(resp[0].msgid)
@@ -52,7 +56,7 @@ module.exports = (client) => {
                                                                             if (res.has(resp[0].author === true)) {
                                                                                 down--
                                                                             }
-
+                                                                            client.logger.log(`Checking ${resp[0]._id}`)
                                                                             if (up < 3) {
                                                                                 lost();
                                                                             } else if (up >= down * 2) {
@@ -103,9 +107,11 @@ module.exports = (client) => {
                             }
                         }
                     }
+                    i++
                 }
-
-
+                if (i == k+1) {
+                client.logger.ready(`Checked all ${k} suggestion messages successfully.`)
+                }
 
             })
 
@@ -122,7 +128,7 @@ module.exports = (client) => {
                 "**Instructions**",
                 `Please vote with :white_check_mark: or :x: to either let it go through or cancel it.`
             )
-            .addField("**Time till vote ends:**", `${expires}`)
+            .addField("**Time till vote ends:**", `${expires} **[UTC+1]**`)
             .setFooter(id)
             .setColor(config.colors.defaultembed)
             .setTimestamp();

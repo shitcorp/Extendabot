@@ -17,17 +17,23 @@ exports.plugin = {
   events: {
     ready: {
       run: async (client) => {
-        var CronJob = require('cron').CronJob;
+        //client.guilds.cache.get("589958750866112512").channels.cache.get("720546517949349938").send(`Isnt Friday tomorrow?`)
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>  Better Suggestions is ready.")
-        var job = new CronJob('0 */7 * * * *', function() {
+        client.guilds.cache.forEach(guild => {
           
-          client.voteend("589958750866112512", "632275715391225865");
-          client.logger.ready(`Checked all suggestions successfully.`)
-          client.logger.log(`You should see this every 10 minutes.`)
+          var CronJob = require('cron').CronJob;
+          var job = new CronJob('0 */10 * * * *', function() {
+            
+            client.logger.log(`Starting suggestioncheck`)
+            client.voteend(guild.id, "600812135882293249");
+  
+          }, null, true, 'America/Los_Angeles');
+          job.start();
+          client.logger.ready(`Cron job started.`)
 
-        }, null, true, 'America/Los_Angeles');
-        job.start();
-        client.logger.log(`Cron job started.`)
+
+        })
+        
       }
     },
     message: {
@@ -41,15 +47,15 @@ exports.plugin = {
         while (args[0] && args[0][0] === "-") {
           message.flags.push(args.shift().slice(1));
         }
-        console.log(message.flags)
+        
             if (usercache.has(message.author.id)) {
               message.delete().catch(console.error);
               return message
                 .reply(
                   client.error(
-                    `\`\`\`You have a pendig suggestion going right now. Please wait at least ${
-                      config["cooldown-in-minutes"] - 1
-                    } minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can only have one pending suggestion at the time.`
+                    `\`\`\`You are on a cooldown right now. Please wait at least ${
+                      config["cooldown-in-minutes"]-1
+                    } minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can edit suggestions by doing ${client.config.prefix}edit -SUGGESTIONID <NEWTEXT>.`
                   )
                 )
                 .then((msg) => {
@@ -100,36 +106,16 @@ exports.plugin = {
     },
   },
   cmds: {
-    suggest: {
+    config: {
       run: async (client, message, args, level) => {
-        if (message.channel.id !== config.commandchannel) return;
-        if (usercache.has(message.author.id)) {
-          message.delete().catch(console.error);
-          return message
-            .reply(
-              client.error(
-                `\`\`\`You have a pendig suggestion going right now. Please wait at least ${
-                  config["cooldown-in-minutes"] - 1
-                } minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can only have one pending suggestion at the time.`
-              )
-            )
-            .then((msg) => {
-              msg
-                .delete({ timeout: 60000 * config["cooldown-in-minutes"] })
-                .catch(console.error);
-            });
-        } else {
-          const cmd = require("./cmds/add");
+        
+          const cmd = require("./cmds/config");
           try {
             cmd.run(client, message, args, level);
-            usercache.add(message.author.id);
-            setTimeout(async function () {
-              usercache.delete(message.author.id);
-            }, 60000 * config["cooldown-in-minutes"]);
           } catch {
             console.error;
           }
-        }
+        
       },
       conf: {
         enabled: true,
@@ -138,15 +124,16 @@ exports.plugin = {
         permLevel: "STAFF",
       },
       help: {
-        name: "suggest",
+        name: "config",
         category: "Utility",
         description: "This is a creative text, dont mind me",
         usage: "bye -> tells the world goodbye from you.",
       },
     },
-    stats: {
+    edit: {
       run: async (client, message, args, level) => {
         let cmd = require('./cmds/edit')
+        if (message.channel.id != config.commandchannel) return message.channel.send(client.error(`This command is only working in ${message.guild.channels.cache.get(config.commandchannel)}`)).then(msg => msg.delete({timeout: 60000}).catch(console.error));
         try {
           cmd.run(client, message, args, level)
         } catch(e) {

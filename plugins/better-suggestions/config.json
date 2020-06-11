@@ -1,14 +1,17 @@
 {
 
-    "suggestions-channel": "632275715391225865",
-    "approved-channel": "632275715391225865",
-    "commandchannel": "600812135882293249",
+    "suggestions-channel": "600812135882293249",
+    "approved-channel": "719536506783399996",
+    "commandchannel": "591156284552773632",
     "max-vote-timeout-in-days": 3,
-    "cooldown-in-minutes": 1, 
+    "cooldown-in-minutes": 5, 
     "keywords": [
-        "(b)"
+        "(s)",
+        "suggest:",
+        "suggestion:"
     ],
-    "vote-timeout-in-minutes": 1,
+    "minimum-votes-required": 3,
+    "vote-timeout-in-minutes": 60,
     "colors": {
         "defaultembed": "BLUE",
         "approvedembed": "GREEN"

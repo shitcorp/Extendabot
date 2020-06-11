@@ -38,6 +38,6 @@ module.exports = async (client) => {
      }
     })
 
-    client.logger.ready(`${client.user.username} is ready to serve ${client.users.size} users in ${client.guilds.size} servers.`)
+    client.logger.ready(`${client.user.username} is ready to serve ${client.users.cache.size} users in ${client.guilds.cache.size} servers.`)
 
 };

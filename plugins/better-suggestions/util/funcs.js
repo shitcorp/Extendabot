@@ -23,7 +23,7 @@ module.exports = (client) => {
                 let i = 1;
                 let k = messages.size
                 for (const message of messages) {
-                    client.logger.debug(`Checking message ${i}/${k} ( ID: ${message} )`)
+                    client.logger.debug(`Checking message ${i}/${k} `)
                     for (const props of message) {
                         if (typeof props.embeds === "object") {
                             for (const embed of props.embeds) {
@@ -140,7 +140,6 @@ module.exports = (client) => {
         const embed = new MessageEmbed()
             .setTitle(`This suggestion ${opt}.`)
             .setThumbnail(author.avatarURL())
-
             .addField(`**Votes:**`, ` 👍  **${up}**  👎  **${down}** `)
             .setTimestamp()
             .setFooter(id)
@@ -154,5 +153,35 @@ module.exports = (client) => {
 
         return embed;
     }
+
+
+    client.commentedembed = (message, author, text, opt, up, down, comments, id) => {
+        const { MessageEmbed } = require("discord.js");
+        const embed = new MessageEmbed()
+            .setTitle(`This suggestion ${opt}.`)
+            .setThumbnail(author.avatarURL())
+            .addField(`**Votes:**`, ` 👍  **${up}**  👎  **${down}** `)
+            .setTimestamp()
+            .setFooter(id)
+        for (const author in comments) {
+            console.log(typeof comments[author])
+            for (const key in comments[author]) {
+                console.log(key)
+                console.log(comments[author][key])
+                embed.addField(comments[author][key], "a", true)
+                
+            }
+            
+        }
+        if (opt == "won") {
+            embed.setColor(config.colors.approvedembed)
+            embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\`Posted in: ${message.guild.channels.cache.get(config["approved-channel"])}`);
+        } else if (opt == "lost") {
+            embed.setColor("RED")
+            embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\``);
+        }
+        return embed;
+    }
+
 
 }

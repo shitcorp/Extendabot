@@ -109,7 +109,7 @@ exports.plugin = {
     config: {
       run: async (client, message, args, level) => {
         
-          const cmd = require("./cmds/config");
+          const cmd = require("./cmds/comment");
           try {
             cmd.run(client, message, args, level);
           } catch {

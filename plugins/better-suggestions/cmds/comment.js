@@ -8,8 +8,13 @@ exports.run = async (client, message, args, level) => {
     const uniqid = require('uniqid');
     const systime = Date.now()
 
+
+    if (message.flags.includes('sudo')) {
+        console.log("sudo mode has been entered")
+    }
+
     if (!message.flags[0]) return message.channel.send(client.error(`Please specify a suggestion to comment. Get the ID from the Footer of your suggestion message.`))
-console.log(message.flags)
+    console.log(message.flags)
     
         if (message.flags[0] && !message.flags[1]) {
             try {
@@ -79,6 +84,11 @@ console.log(message.flags)
 
         editcomment()
        
+    } else if (message.flags[0] && message.flags[1] === "delete") {
+        // TODO: delete comment command (just dont display it)
+        console.log("user wants to delete comment")
+    } else if (message.flags.includes("sudo")) {
+        console.log("sudo mode has been entered")
     }
 
     

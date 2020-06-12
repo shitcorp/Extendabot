@@ -8,7 +8,6 @@ exports.run = async (client, message, args, level) => {
 
     try {
         dbfindbyid(message.flags[0]).then((res) => {
-          console.log(res)
             if (!res[0]) return message.channel.send(client.error(`This suggestion does not seem to exist.`)).then(msg => msg.delete({timeout: 60000}).catch(console.error))
             if (res[0].expires == "expired") return message.channel.send(client.error(`The vote for this suggestion is already over.`)).then(msg => msg.delete({timeout: 60000}).catch(console.error))
             if (!args[0]) return message.channel.send(client.error(`Please enter a new suggestion text.`)).then(msg => msg.delete({timeout: 60000}).catch(console.error))
@@ -18,10 +17,10 @@ exports.run = async (client, message, args, level) => {
             message.guild.channels.cache.get(config["suggestions-channel"]).messages.fetch(res[0].msgid)
             .then(messg => {
                 const stringo = `${ formatDistance(new Date(), parseInt(res[0].expires) ) }`
-                messg.edit(client.newsuggestion(message, newtext, `~ ${stringo}  (${format(parseInt(res[0].expires), "dd/MM/yyyy | H:m")}h)`, message.flags[0]))
+                messg.edit(client.newsuggestion(message, newtext, `~ ${stringo}  (${format(parseInt(res[0].expires), "dd/MM/yyyy | H:m BBBB")})`, message.flags[0], "true"))
             })
             .catch(e => {
-                message.channel.send(client.error(`There was an error trying to edit your suggestion: \n${e}\nShow this to the developers`)).then(msg => msg.delete({timeout: 60000}).catch(console.error))
+                message.channel.send(client.error(`There was an error trying to edit your suggestion: \n\`\`\`${e}\`\`\`\nShow this to the developers`)).then(msg => msg.delete({timeout: 60000}).catch(console.error))
             })
         });
     } catch(e) {

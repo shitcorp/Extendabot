@@ -118,26 +118,33 @@ module.exports = (client) => {
             
     }
 
-    client.newsuggestion = (message, text, expires, id) => {
-        const { MessageEmbed } = require('discord.js')
+    client.newsuggestion = (message, text, expires, id, edit) => {
+        const { MessageEmbed } = require('discord.js');
+        const { format } = require('date-fns');
         const embed = new MessageEmbed()
             .setTitle("New Suggestion")
             .setThumbnail(message.author.avatarURL())
-            .setDescription(`Submitted by: ${message.author}\`\`\`${text}\`\`\``)
             .addField(
                 "**Instructions**",
                 `Please vote with :white_check_mark: or :x: to either let it go through or cancel it.`
             )
-            .addField("**Time till vote ends:**", `${expires} **[UTC+1]**`)
+            .addField("**Time till vote ends:**", `${expires}`)
             .setFooter(id)
             .setColor(config.colors.defaultembed)
-            .setTimestamp();
+            .setTimestamp()
+            if (edit) {
+                embed.setDescription(`Submitted by: ${message.author}\`\`\`${text}\`\`\` [(edited)](https://dontclick.this/ "${format(Date.now(), 'EEEE dd/MM/yyyy | H:m BBBBB')}")`)
+                return embed;
+            } else if (!edit){
+                embed.setDescription(`Submitted by: ${message.author}\`\`\`${text}\`\`\``)
+                return embed;
+            }
         return embed;
     }
     
 
-    client.suggestioneend = (message, author, text, opt, up, down, id) => {
-        const { MessageEmbed } = require("discord.js");
+    client.suggestioneend = (message, author, text, opt, up, down, id ) => {
+        const { MessageEmbed } = require('discord.js');
         const embed = new MessageEmbed()
             .setTitle(`This suggestion ${opt}.`)
             .setThumbnail(author.avatarURL())
@@ -150,7 +157,7 @@ module.exports = (client) => {
         } else if (opt == "lost") {
             embed.setColor("RED")
             embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\``);
-        }
+        } 
 
         return embed;
     }
@@ -168,10 +175,10 @@ module.exports = (client) => {
             console.log(comments)
             for (const index in comments) {
                 console.log(comments[index])
-                var authorstring = `${client.users.cache.get(comments[index].author)} \n<:submitted:720978302180786256> [${format(comments[index].systime, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].systime, 'dd/MM/yyyy | hh:mm aaaa')}")`
+                var authorstring = `${client.users.cache.get(comments[index].author)} \n<:submitted:721094503556972545> [${format(comments[index].systime, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].systime, 'dd/MM/yyyy | hh:mm aaaa')}")`
                 
                 if (comments[index].edited) {
-                    authorstring += `\n<:edited:720976853564915742> [${format(comments[index].lastedit, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].lastedit, 'dd/MM/yyyy | hh:mm aaaa')}")`
+                    authorstring += `\n<:edited:721094276297129995> [${format(comments[index].lastedit, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].lastedit, 'dd/MM/yyyy | hh:mm aaaa')}")`
                 }
 
                 embed.addField(comments[index].content, authorstring, true)

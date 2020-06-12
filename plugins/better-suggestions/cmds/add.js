@@ -103,7 +103,7 @@ handle.configupdate(message.guild.id, { four: "twenty" })
       client.newsuggestion(
         message,
         suggestiontext,
-        `~ ${stringo}  (${format(expires, "dd/MM/yyyy | H:m")}h)`,
+        `~ ${stringo}  (${format(expires, "dd/MM/yyyy | H:m BBBB")})`,
         suggestionID
       )
     )

@@ -158,22 +158,24 @@ module.exports = (client) => {
 
     client.commentedembed = (message, author, text, opt, up, down, comments, id) => {
         const { MessageEmbed } = require("discord.js");
+        const { format } = require('date-fns')
         const embed = new MessageEmbed()
             .setTitle(`This suggestion ${opt}.`)
             .setThumbnail(author.avatarURL())
             .addField(`**Votes:**`, ` 👍  **${up}**  👎  **${down}** `)
             .setTimestamp()
             .setFooter(id)
-        for (const author in comments) {
-            console.log(typeof comments[author])
-            for (const key in comments[author]) {
-                console.log(key)
-                console.log(comments[author][key])
-                embed.addField(comments[author][key], "a", true)
+            console.log(comments)
+            for (const index in comments) {
+                console.log(comments[index])
+                var authorstring = `${client.users.cache.get(comments[index].author)} \n<:submitted:720978302180786256> [${format(comments[index].systime, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].systime, 'dd/MM/yyyy | hh:mm aaaa')}")`
                 
-            }
-            
-        }
+                if (comments[index].edited) {
+                    authorstring += `\n<:edited:720976853564915742> [${format(comments[index].lastedit, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].lastedit, 'dd/MM/yyyy | hh:mm aaaa')}")`
+                }
+
+                embed.addField(comments[index].content, authorstring, true)
+             }
         if (opt == "won") {
             embed.setColor(config.colors.approvedembed)
             embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\`Posted in: ${message.guild.channels.cache.get(config["approved-channel"])}`);

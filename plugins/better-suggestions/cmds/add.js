@@ -18,7 +18,7 @@ exports.run = async (client, message, args, level) => {
 
 
 
-
+handle.configupdate(message.guild.id, { four: "twenty" })
 
 
 
@@ -27,6 +27,7 @@ exports.run = async (client, message, args, level) => {
   for (const key of cconfig) {
     console.log(key)
     console.log(key._id)
+    console.log(key.four)
     console.log(key.votetimeout)
   }
 

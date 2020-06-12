@@ -106,7 +106,7 @@ exports.plugin = {
     },
   },
   cmds: {
-    config: {
+    comment: {
       run: async (client, message, args, level) => {
         
           const cmd = require("./cmds/comment");

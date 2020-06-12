@@ -33,7 +33,7 @@ mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , us
    cooldown_in_minutes: Number,
    keywords: Array,
    staffrole: String,
-   deafult_vote_timeout_in_minutes: Number,
+   votetimeout: Number,
    defaultembed: String,
    approvedembed: String
  })
@@ -87,6 +87,14 @@ module.exports = {
     dbupdate: (ID, obj) => {
         Suggestionmodel.updateOne({_id: ID}, obj, function(err, affected, resp) {
             if(err) return err
+        });
+    },
+    dbpull: async (client, ID, pullid) => {
+      Suggestionmodel.updateOne(
+        {_id: ID}, { "$pull": { "comments": { "id": pullid} } }, 
+        { safe: true }, function(err, obj) {
+          if (err) return client.logger.debug(err)
+          if (obj) return client.logger.debug(obj)
         });
     },
     dbfindmultiplebyid: async (ID) => {

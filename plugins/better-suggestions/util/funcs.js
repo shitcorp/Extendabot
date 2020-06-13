@@ -193,6 +193,21 @@ module.exports = (client) => {
             embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\``);
         }
         return embed;
+    };
+
+    
+
+    client.editapprovedsuggestion = (message, channel, author, text, opt, up, down, comments, id, msgid) => {
+        
+        channel.messages.fetch(msgid)
+        .then(async msg => {
+            msg.edit(client.commentedembed(message, author, text, opt, up, down, comments, id))
+        })
+        .catch(error => {
+            client.logger.deubg(error)
+        });
+
+
     }
 
 

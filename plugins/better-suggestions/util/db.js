@@ -3,9 +3,6 @@ const { VoiceState } = require('discord.js');
 const { timeout } = require('cron');
 mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , useUnifiedTopology: true });
 
-
-
-
  const suggestionschema = new mongoose.Schema({
    _id: String,
    suggestion: String,
@@ -21,7 +18,6 @@ mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , us
    comments: Array,
    deletedcomments: Array
  });
-
 
  const Suggestionmodel = mongoose.model("Suggestion", suggestionschema);
 
@@ -40,11 +36,6 @@ mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , us
  })
 
  const Suggestionconfigmodel = new mongoose.model("Suggestionconfig", configschema)
-
-
-
-
-
 
 
 module.exports = {

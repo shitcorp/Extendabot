@@ -18,7 +18,8 @@ mongoose.connect("mongodb://localhost/suggestions", { useNewUrlParser: true , us
    downvotes: Number,
    msgid: String,
    apprmsgid: String,
-   comments: Array
+   comments: Array,
+   deletedcomments: Array
  });
 
 

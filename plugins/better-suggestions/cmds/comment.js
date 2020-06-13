@@ -29,7 +29,8 @@ exports.run = async (client, message, args, level) => {
                         content: text,
                         systime,
                         edited: false,
-                        lastedit: "null"
+                        lastedit: "null",
+                        display: true
                     }
                     dbupdate(res[0].id, { $push: { 'comments': comm } })
 
@@ -65,7 +66,8 @@ exports.run = async (client, message, args, level) => {
                             content: newtext,
                             systime: props.systime,
                             edited: true,
-                            lastedit: systime
+                            lastedit: systime,
+                            display: true
                         }
                         await dbpull(client, res[0].id, props.id)
                         dbupdate(res[0].id, { $push: { 'comments': newcomm } })

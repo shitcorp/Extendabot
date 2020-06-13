@@ -175,6 +175,7 @@ module.exports = (client) => {
             console.log(comments)
             for (const index in comments) {
                 console.log(comments[index])
+                if (comments[index].display) {
                 var authorstring = `${client.users.cache.get(comments[index].author)} \n<:submitted:721094503556972545> [${format(comments[index].systime, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].systime, 'dd/MM/yyyy | hh:mm aaaa')}")`
                 
                 if (comments[index].edited) {
@@ -182,6 +183,7 @@ module.exports = (client) => {
                 }
 
                 embed.addField(comments[index].content, authorstring, true)
+                }
              }
         if (opt == "won") {
             embed.setColor(config.colors.approvedembed)

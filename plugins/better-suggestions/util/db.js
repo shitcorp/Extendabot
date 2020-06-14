@@ -99,6 +99,12 @@ module.exports = {
       if (err) return err;
     });
   },
+  bugconfupdate: async (ID, obj) => {
+    bugconfmodel.updateOne({ _id: ID }, obj, function (err, affected) {
+      if (err) return err;
+      if (affected) return affected;
+    })
+  },
   dbpush: (suggestion) => {
 
     const usersuggestion = new Suggestionmodel(suggestion)

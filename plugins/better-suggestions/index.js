@@ -7,7 +7,11 @@ exports.init = async (client) => {
   require("./util/funcs")(client);
   let handler = require('./util/db')
   await handler.dbinit();
- 
+
+  let test = await handler.dbfindbyguild("589958750866112512")
+  test.forEach(async element => {
+    console.log(typeof element)
+  })
 
 }
 
@@ -22,10 +26,11 @@ exports.plugin = {
         client.guilds.cache.forEach(guild => {
           
           var CronJob = require('cron').CronJob;
-          var job = new CronJob('0 */10 * * * *', function() {
+          var job = new CronJob('0 */1 * * * *', function() {
             
-            client.logger.log(`Starting suggestioncheck`)
-            client.voteend(guild.id, "600812135882293249");
+            client.logger.log(`Starting suggestioncheck . . . `)
+            // Voteend method pulls guildconfig from db and checks suggestionschannel
+            client.voteend(guild.id);
   
           }, null, true, 'America/Los_Angeles');
           job.start();
@@ -38,24 +43,23 @@ exports.plugin = {
     },
     message: {
       run: async (client, message) => {
+        const { configget } = require('./util/db')
+        const suggestionconfig = await configget(message.guild.id)
+        if (!suggestionconfig[0]) return;
         
-        config.keywords.forEach((keyword) => {
-        
-          if (message.content.toLowerCase().startsWith(`${keyword}`)) {
+        suggestionconfig[0].keywords.forEach(async keyword => {  
+        if (message.content.toLowerCase().startsWith(`${keyword}`)) {
         const args = message.content.slice(keyword.length).trim().split(/ +/g);
         message.flags = [];
         while (args[0] && args[0][0] === "-") {
           message.flags.push(args.shift().slice(1));
         }
-        
             if (usercache.has(message.author.id)) {
               message.delete().catch(console.error);
               return message
                 .reply(
                   client.error(
-                    `\`\`\`You are on a cooldown right now. Please wait at least ${
-                      config["cooldown-in-minutes"]-1
-                    } minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can edit suggestions by doing ${client.config.prefix}edit -SUGGESTIONID <NEWTEXT>.`
+                    `\`\`\`You are on a cooldown right now. Please wait at least ${suggestionconfig[0].cooldown_in_minutes-1} minute(s) before submitting another suggestion.\`\`\` \n>  **(!)** Remember: You can edit suggestions by doing ${client.config.prefix}edit -SUGGESTIONID <NEWTEXT>.`
                   )
                 )
                 .then((msg) => {
@@ -152,6 +156,28 @@ exports.plugin = {
         description: "This is a creative text, dont mind me",
         usage: "Returns your statistics.",
       },
+    },
+    config: {
+      run:async(client, message, args, level) => {
+        let cmd = require('./cmds/config')
+        try {
+          cmd.run(client, message, args, level)
+        } catch(e) {
+          client.logger.debug(e)
+        }
+      },
+      conf: {
+        enabled: true,
+        guildOnly: true,
+        aliases: [],
+        permLevel: "STAFF"
+      },
+      help: {
+        name: "config",
+        category: "Utility",
+        description: "This is a creative text, dont mind me",
+        usage: "Returns your statistics."
+      }
     },
   },
   conf: {

@@ -82,6 +82,7 @@ handle.configupdate(message.guild.id, { four: "twenty" })
 
     const suggestion = {
       _id: `${suggestionID}`,
+      guildid: `${message.guild.id}`,
       suggestion: `${suggestiontext}`,
       author: `${message.author.id}`,
       systemtime: `${systime}`,
@@ -99,19 +100,12 @@ handle.configupdate(message.guild.id, { four: "twenty" })
     
     const chan = message.guild.channels.cache.get(cconfig[0].suggestions_channel)
 
-    chan.send(
-      client.newsuggestion(
-        message,
-        suggestiontext,
-        `~ ${stringo}  (${format(expires, "dd/MM/yyyy | H:m BBBB")})`,
-        suggestionID
-      )
-    )
+    chan.send(client.newsuggestion(message, suggestiontext, `~ ${stringo}  (${format(expires, "dd/MM/yyyy | H:m BBBB")})`, suggestionID))
       .then(async (msg) => {
         await msg.react("✅")
         await msg.react("❌")
         handle.dbupdate(suggestionID, { msgid: `${msg.id}` });
-      })
+      });
 
   }
 

@@ -16,7 +16,7 @@ exports.run = async (client, message, args, level) => {
             try {
                 dbfindbyid(message.flags[0]).then((res) => {
                     if (!res[0]) return message.channel.send(client.error(`This suggestion does not seem to exist.`))
-                    //if (res[0].expires !== "expired") return message.channel.send(client.error(`This suggestion is still active, so you cant comment it right now.`))
+                    if (res[0].expires !== "expired") return message.channel.send(client.error(`This suggestion is still active, so you cannot comment on it right now.`))
                     var text = args.join(' ')
                     console.log(systime)
                     const comm = {

@@ -73,11 +73,18 @@ if (message.author.bot) return
   
   
     message.author.permLevel = level;
-  
+    
+
+    message.persistents = [];
+    while (args[0] && args[0][0] === "--") {
+      message.persistents.push(args.shift().slice(2));
+    }
+
     message.flags = [];
     while (args[0] && args[0][0] === "-") {
       message.flags.push(args.shift().slice(1));
     }
+    
   
     // global cooldown here
     if (cmdRecently.has(message.author.id)) {
@@ -98,8 +105,10 @@ if (message.author.bot) return
       client.logger.cmd(`[CMD] ${client.config.permLevels.find(l => l.level === level).name} ${message.author.username} (ID: ${message.author.id}) ran the command '${cmd.help.name}', in the guild '${message.guild.name}' (ID: ${message.guild.id})`);
       try {
         cmd.run(client, message, args, level);
+        console.log("flags:", message.flags);
+        console.log("persistent flags", message.persistents);
       } catch (e) {
-        
+        console.error(e)
       }
     }
 

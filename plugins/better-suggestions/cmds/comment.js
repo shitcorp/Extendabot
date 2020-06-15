@@ -67,14 +67,17 @@ exports.run = async (client, message, args, level) => {
 
 
         async function editcomment() {
+            let k = 0;
             if (!args) return message.channel.send(client.error(`You forgot to give a new text for your comment`))
             dbfindbyid(message.flags[0]).then(async (res) => {
                 if (!res[0]) return message.channel.send(client.error(`This suggestion does not exist`))
                 const toloop = res[0].comments
                 for (const props of toloop) {
-
+                    
                     if (typeof props.author != "undefined") {
-                        if (props.author !== message.author.id) return message.channel.send(client.error(`You never commented on that suggestion.`))
+                        if (props.author === message.author.id) {
+                            k++
+                        }
                         console.log(typeof props)
                         console.log(props.author)
                         let newtext = args.join(' ')
@@ -87,6 +90,7 @@ exports.run = async (client, message, args, level) => {
                             lastedit: systime,
                             display: true
                         }
+                        if (k !== 0) return message.channel.send(client.error(`You never commented on that suggestion.`))
                         await dbpull(client, res[0]._id, props.id)
                         dbupdate(res[0].id, { $push: { 'comments': newcomm } })
                         dbfindbyid(res[0]._id).then(async resp => {

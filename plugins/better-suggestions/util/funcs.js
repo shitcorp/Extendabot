@@ -42,17 +42,17 @@ module.exports = (client) => {
                                                                         message.reactions.cache.get("✅").users.fetch().then(res => {
                                                                             up = res.size - 1
                                                                             if (res.has(resp[0].author) === true) {
-                                                                                up--
+                                                                                //up--
                                                                             }
                                                                             message.reactions.cache.get("❌").users.fetch().then(res => {
                                                                                 down = res.size - 1
                                                                                 if (res.has(resp[0].author === true)) {
-                                                                                    down--
+                                                                                    //down--
                                                                                 }
                                                                                 client.logger.debug(`Checking ${resp[0]._id}`)
-                                                                                if (up < 3) {
+                                                                                if (up < 1) {
                                                                                     lost();
-                                                                                } else if (up >= down * 2) {
+                                                                                } else if (up >= down) {
                                                                                     won();
                                                                                 } else if (up == down) {
                                                                                     won();
@@ -62,14 +62,14 @@ module.exports = (client) => {
                                                                                 async function won() {
                                                                                     message.reactions.removeAll();
                                                                                     message.edit(client.suggestioneend(message, client.users.cache.get(resp[0].author), resp[0].suggestion, "won", up, down, resp[0]._id))
-                                                                                    message.guild.channels.cache.get(config["approved-channel"]).send(client.suggestioneend(message, client.users.cache.get(resp[0].author), resp[0].suggestion, "won", up, down, resp[0]._id)).then(msg => {
-                                                                                        handle.dbupdate(resp[0].id, { expires: "expired", approved: true, apprmsgid: msg.id, upvotes: up, dowvotes: down })
+                                                                                    message.guild.channels.cache.get(guildconfig[0].approved_channel).send(client.suggestioneend(message, client.users.cache.get(resp[0].author), resp[0].suggestion, "won", up, down, resp[0]._id)).then(msg => {
+                                                                                        handle.dbupdate(resp[0].id, { expires: "expired", approved: true, apprmsgid: msg.id, upvotes: up, downvotes: down })
                                                                                     })
                                                                                 }
                                                                                 async function lost() {
                                                                                     message.reactions.removeAll();
                                                                                     message.edit(client.suggestioneend(message, client.users.cache.get(resp[0].author), resp[0].suggestion, "lost", up, down, resp[0]._id))
-                                                                                    handle.dbupdate(resp[0].id, { expires: "expired", upvotes: up, dowvotes: down })
+                                                                                    handle.dbupdate(resp[0].id, { expires: "expired", upvotes: up, downvotes: down })
                                                                                 }
                                                                             })
                                                                         }).catch(e => {
@@ -115,7 +115,7 @@ module.exports = (client) => {
             .setColor(config.colors.defaultembed)
             .setTimestamp()
         if (edit) {
-            embed.setDescription(`Submitted by: ${message.author}\`\`\`${text}\`\`\` [(edited)](https://dontclick.this/ "${format(Date.now(), 'EEEE dd/MM/yyyy | H:m BBBBB')}")`)
+            embed.setDescription(`Submitted by: ${message.author}\`\`\`${text}\`\`\` [(edited)](https://dontclick.this/ "${format(Date.now(), 'EEEE dd/MM/yyyy | pppp')}")`)
             return embed;
         } else if (!edit) {
             embed.setDescription(`Submitted by: ${message.author}\`\`\`${text}\`\`\``)
@@ -135,7 +135,7 @@ module.exports = (client) => {
             .setFooter(id)
         if (opt == "won") {
             embed.setColor(config.colors.approvedembed)
-            embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\`Posted in: ${message.guild.channels.cache.get(config["approved-channel"])}`);
+            embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\``);
         } else if (opt == "lost") {
             embed.setColor("RED")
             embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\``);
@@ -158,10 +158,10 @@ module.exports = (client) => {
         for (const index in comments) {
             console.log(comments[index])
             if (comments[index].display) {
-                var authorstring = `${client.users.cache.get(comments[index].author)} \n<:submitted:721094503556972545> [${format(comments[index].systime, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].systime, 'dd/MM/yyyy | hh:mm aaaa')}")`
+                var authorstring = `${client.users.cache.get(comments[index].author)} \n<:submitted:721094503556972545> [${format(comments[index].systime, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].systime, 'dd/MM/yyyy | pppp')}")`
 
                 if (comments[index].edited) {
-                    authorstring += `\n<:edited:721094276297129995> [${format(comments[index].lastedit, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].lastedit, 'dd/MM/yyyy | hh:mm aaaa')}")`
+                    authorstring += `\n<:edited:721094276297129995> [${format(comments[index].lastedit, 'dd/MM/yyyy')}](https://dontclick.this/ "${format(comments[index].lastedit, 'dd/MM/yyyy | pppp')}")`
                 }
 
                 embed.addField(comments[index].content, authorstring, true)
@@ -169,7 +169,7 @@ module.exports = (client) => {
         }
         if (opt == "won") {
             embed.setColor(config.colors.approvedembed)
-            embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\`Posted in: ${message.guild.channels.cache.get(config["approved-channel"])}`);
+            embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\``);
         } else if (opt == "lost") {
             embed.setColor("RED")
             embed.setDescription(`Submitted by: ${author}\`\`\`${text}\`\`\``);
@@ -186,7 +186,7 @@ module.exports = (client) => {
                 msg.edit(client.commentedembed(message, author, text, opt, up, down, comments, id))
             })
             .catch(error => {
-                client.logger.deubg(error)
+                client.logger.debug(error)
             });
 
 

@@ -1,8 +1,9 @@
 exports.run = async (client, message, args, level) => {
 
-    const { dbupdate, dbfindbyid } = require("../util/db");
+    const { dbupdate, dbfindbyid, configget } = require("../util/db");
     const { formatDistance, format } = require('date-fns')
     const config = require('../config.json')
+    const cconfig = await configget(message.guild.id)
 
     if (!message.flags[0]) return message.channel.send(client.error(`Please specify a suggestion to edit. Get the ID from the Footer of your suggestion message.`))
 
@@ -14,7 +15,7 @@ exports.run = async (client, message, args, level) => {
             let newtext = args.join(' ')
             dbupdate(message.flags[0], { suggestion: newtext })
             message.channel.send(client.success(`Updated your suggestion.`)).then(msg => msg.delete({timeout: 60000}).catch(console.error))
-            message.guild.channels.cache.get(config["suggestions-channel"]).messages.fetch(res[0].msgid)
+            message.guild.channels.cache.get(cconfig[0].suggestions_channel).messages.fetch(res[0].msgid)
             .then(messg => {
                 const stringo = `${ formatDistance(new Date(), parseInt(res[0].expires) ) }`
                 messg.edit(client.newsuggestion(message, newtext, `~ ${stringo}  (${format(parseInt(res[0].expires), "dd/MM/yyyy | H:m BBBB")})`, message.flags[0], "true"))

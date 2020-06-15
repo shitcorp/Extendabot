@@ -32,7 +32,7 @@ handle.configupdate(message.guild.id, { four: "twenty" })
   }
 
 
-  var expires = systime + 6000 * config["vote-timeout-in-minutes"]
+  var expires = systime + 1000 * config["vote-timeout-in-minutes"]
   
   if (!message.flags[0]) {
     suggestionstarter()
@@ -100,7 +100,7 @@ handle.configupdate(message.guild.id, { four: "twenty" })
     
     const chan = message.guild.channels.cache.get(cconfig[0].suggestions_channel)
 
-    chan.send(client.newsuggestion(message, suggestiontext, `~ ${stringo}  (${format(expires, "dd/MM/yyyy | H:m BBBB")})`, suggestionID))
+    chan.send(client.newsuggestion(message, suggestiontext, `~ ${stringo}`, suggestionID))
       .then(async (msg) => {
         await msg.react("✅")
         await msg.react("❌")

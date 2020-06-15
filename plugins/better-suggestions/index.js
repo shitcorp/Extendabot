@@ -125,7 +125,7 @@ exports.plugin = {
         enabled: true,
         guildOnly: true,
         aliases: ["goodbye"],
-        permLevel: "STAFF",
+        permLevel: "User",
       },
       help: {
         name: "config",

@@ -10,6 +10,7 @@ exports.run = (client, message, args, level) => {
     // To fukcing find our how to change the converted FROM timeone
     // lets
     // bot
+    // some
     
     //console.log(utcDate)
     //const utcDate = format(systime, 'yyyy-MM-dd HH:mm:ss zzz', { timeZone: 'America/New_York' })

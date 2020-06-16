@@ -113,7 +113,7 @@ exports.plugin = {
     comment: {
       run: async (client, message, args, level) => {
         
-          const cmd = require("./cmds/comment");
+          const cmd = require("./cmds/time");
           try {
             cmd.run(client, message, args, level);
           } catch {
@@ -128,7 +128,7 @@ exports.plugin = {
         permLevel: "User",
       },
       help: {
-        name: "config",
+        name: "comment",
         category: "Utility",
         description: "This is a creative text, dont mind me",
         usage: "bye -> tells the world goodbye from you.",

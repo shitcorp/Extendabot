@@ -11,6 +11,7 @@ exports.run = (client, message, args, level) => {
     // lets
     // bot
     // some
+    // contributions
     
     //console.log(utcDate)
     //const utcDate = format(systime, 'yyyy-MM-dd HH:mm:ss zzz', { timeZone: 'America/New_York' })

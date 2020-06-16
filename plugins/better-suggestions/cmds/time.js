@@ -7,6 +7,7 @@ exports.run = (client, message, args, level) => {
     //const timeZones = listTimeZones()
 
     //time
+    // To fukcing find our how to change the converted FROM timeone
     //console.log(utcDate)
     //const utcDate = format(systime, 'yyyy-MM-dd HH:mm:ss zzz', { timeZone: 'America/New_York' })
 

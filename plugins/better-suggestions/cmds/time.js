@@ -6,6 +6,7 @@ exports.run = (client, message, args, level) => {
 
     //const timeZones = listTimeZones()
 
+    // does this change anything
     //time
     // To fukcing find our how to change the converted FROM timeone
     // lets

@@ -90,6 +90,8 @@ exports.run = async (client, message, args, level) => {
                             lastedit: systime,
                             display: true
                         }
+                    
+                        
                         if (k !== 0) return message.channel.send(client.error(`You never commented on that suggestion.`))
                         await dbpull(client, res[0]._id, props.id)
                         dbupdate(res[0].id, { $push: { 'comments': newcomm } })

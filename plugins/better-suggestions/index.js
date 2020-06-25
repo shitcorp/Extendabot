@@ -21,12 +21,11 @@ exports.plugin = {
   events: {
     ready: {
       run: async (client) => {
-        //client.guilds.cache.get("589958750866112512").channels.cache.get("720546517949349938").send(`Isnt Friday tomorrow?`)
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>  Better Suggestions is ready.")
         client.guilds.cache.forEach(guild => {
           
           var CronJob = require('cron').CronJob;
-          var job = new CronJob('0 */1 * * * *', function() {
+          var job = new CronJob('0 */10 * * * *', function() {
             
             client.logger.log(`Starting suggestioncheck . . . `)
             // Voteend method pulls guildconfig from db and checks suggestionschannel
@@ -177,6 +176,32 @@ exports.plugin = {
         category: "Utility",
         description: "This is a creative text, dont mind me",
         usage: "Returns your statistics."
+      }
+    },
+    simplevel: {
+      run: async(client, message, args, level) => {
+        if (message.channel.id !== "591156284552773632" && !message.member.hasPermission("ADMINISTRATOR")) return message.channel.send(client.error(`Please use this command in ${message.guild.channels.cache.get("591156284552773632")}.`)).then(msg => {
+          msg.delete({ timeout: 60000 }).catch(console.error())
+        })
+        const cmd = require('./cmds/simplevel')
+        try {
+          cmd.run(client, message, args, level)
+        } catch(e) {
+          console.error(e)
+          message.channel.send(client.error(e));
+        }
+      },
+      conf: {
+        enabled: true,
+        guildOnly: true,
+        aliases: [],
+        permLevel: "User"
+      },
+      help: {
+        name: "simplevel",
+        category: "Fun",
+        description: "Returns your simplevel",
+        usage: "simplevel | simplevel @Usermention"
       }
     },
   },
